@@ -15,7 +15,7 @@ Class Formation{
 	private $prestataire;
 	private $image;
 	private $id;
-	private $etat; //0 = "en cours", 1 = "validé" , 2 = "effectué"
+	private $etat;
 
 	//constructeur
 	function __construct($contenu,$dateDebut,$DateFin,$nombreJours,$lieu,$requis;$prestataire,$image,$etat,$id){

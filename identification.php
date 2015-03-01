@@ -14,10 +14,12 @@
                         if (isset($_POST["login"]) && isset($_POST["mdp"])){
                             $db = new DB_User;
 
+                            //on test les identifiants de connexion
                             if ($db->checkId($_POST["login"],$_POST["mdp"])){
                                 echo("Vous êtes connecté !");
                             }
                             else{
+
                                 echo("Identifiants incorrect !");
                             }
                         }

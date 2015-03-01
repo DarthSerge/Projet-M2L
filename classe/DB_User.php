@@ -1,13 +1,16 @@
 <?php
 
-Class DB_User extends DB{
+include("DB.php");
+include("Script.php");
+
+Class DB_User extends Connection{
 
 	//test de connection
 	function checkId($login,$mdp){
 
 		//connection a la base
 		$dbh = $this->connect();
-		$sql = "SELECT user_id,user_admin FROM user WHERE user_login = :login AND user_mdp = :mdp";
+		$sql = "SELECT user_id,user_admin FROM user WHERE user_login = ':login' AND user_mdp = ':mdp'";
 
 		//on envoie la requête et on bind les arguments
 		$stmt = $dbh->prepare($sql);
@@ -16,6 +19,8 @@ Class DB_User extends DB{
 		
 		//renvoi vrai si les identifiants sont correct ou faux si erreur SQL ou identifiants incorrects
 		if ($stmt->execute()){
+
+			//si identifié on crée l'objet utilisateur en cours
 			if ($stmt->fetch() != null){
 				$this->id = $stmt->fetch()["id"];
 				$this->admin = $stmt->fetch()["admin"];
@@ -38,7 +43,7 @@ Class DB_User extends DB{
 		$dhb->beginTransaction();
 
 		//on commence par la suppression des données de la liste des formations de l'utilisateur
-		$sql = "DELETE FROM Formation_user WHERE fuser_user_id = :id";
+		$sql = "DELETE FROM formation_user WHERE fuser_user_id = :id";
 
 		//on envoie la requête et on bind les arguments
 		$stmt = $dbh->prepare($sql);

@@ -5,7 +5,7 @@ Class Connection{
 	const USER = 'root';
 	const PASSWORD = '';
 	const HOTE = 'localhost';
-	const PORT = '80';
+	const PORT = '82';
 	const BASE = 'M2L';
 
 	function connect(){

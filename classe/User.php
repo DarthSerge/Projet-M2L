@@ -2,7 +2,6 @@
 
 include('DB.php');
 include('Script.php');
-include('Formation.php');
 
 Class User{
 
@@ -39,6 +38,6 @@ Class User{
 
 		$this->ListeFormation = $db.getFormationUser($this->id);
 	}
-
 }
+
 ?>
