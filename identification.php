@@ -25,8 +25,8 @@
                         }
                     ?>
                     <form action="identification.php" method="post">
-                         <p>Votre Login : <input type="text" name="login" /></p>
-                         <p>Votre MdP : <input type="text" name="mdp" /></p>
+                         <p> Login : <input type="text" name="login" /></p>
+                         <p> Mot de passe : <input type="password" name="mdp" /></p>
                          <p><input type="submit" value="Connection"></p>
                     </form>
                 

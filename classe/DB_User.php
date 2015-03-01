@@ -10,7 +10,7 @@ Class DB_User extends Connection{
 
 		//connection a la base
 		$dbh = $this->connect();
-		$sql = "SELECT user_id,user_admin FROM user WHERE user_login = ':login' AND user_mdp = ':mdp'";
+		$sql = "SELECT user_id,user_admin FROM user WHERE user_login = :login AND user_mdp = :mdp";
 
 		//on envoie la requête et on bind les arguments
 		$stmt = $dbh->prepare($sql);
@@ -43,7 +43,7 @@ Class DB_User extends Connection{
 		$dhb->beginTransaction();
 
 		//on commence par la suppression des données de la liste des formations de l'utilisateur
-		$sql = "DELETE FROM formation_user WHERE fuser_user_id = :id";
+		$sql = "DELETE FROM formation_user WHERE form_user_id = :id";
 
 		//on envoie la requête et on bind les arguments
 		$stmt = $dbh->prepare($sql);
@@ -60,7 +60,7 @@ Class DB_User extends Connection{
 		foreach ($this->ListeFormation as $Formation){
 
 			//on insert les nouvelles données
-			$sql = "INSERT INTO Formation_user(fuser_user_id,fuser_formation_id) VALUES(:userId,:formationId)";
+			$sql = "INSERT INTO formation_user(form_user_id,form_formation_id) VALUES(:userId,:formationId)";
 
 			//on envoie la requête et on bind les arguments
 			$stmt = $dbh->prepare($sql);
@@ -81,4 +81,4 @@ Class DB_User extends Connection{
 	}
 }
 
-?>s
+?>
