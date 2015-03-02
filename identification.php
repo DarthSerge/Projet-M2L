@@ -1,6 +1,5 @@
 <!DOCTYPE html>
     <html>
-    <!-- Kiwi -->
             <head>
                     <title>Connection</title>
                     <meta charset="utf-8" />
