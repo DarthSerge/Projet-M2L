@@ -9,7 +9,7 @@ Class DB_User extends DB {
 
 		//connection a la base
 		$dbh = $this->connect();
-		$sql = "SELECT user_id,user_admin,user_login,user_mail FROM user WHERE user_login = :login AND user_mdp = :mdp";
+		$sql = "SELECT user_id, user_admin, user_login, user_mail FROM user WHERE user_login = :login AND user_mdp = :mdp AND user_actif = 1;";
 
 		//on envoie la requête et on bind les arguments
 		$stmt = $dbh->prepare($sql);
@@ -17,12 +17,14 @@ Class DB_User extends DB {
 		$stmt->BindValue(':mdp',md5($mdp));
 		
 		//vrai si les identifiants sont corrects ou faux dans le cas contraire
-		if ($stmt->execute()){
-			$retour = $stmt->fetch(PDO::FETCH_ASSOC)
+		if ($stmt->execute()) {
+			$retour = $stmt->fetch(PDO::FETCH_ASSOC);
 
-			if ($retour["user_id"] != Null){
+			$_SESSION["tab"] = count($retour);
+
+			if (count($retour) != 1) {
 				return $retour;
-			}else{
+			} else {
 				return false;
 			}
 		}

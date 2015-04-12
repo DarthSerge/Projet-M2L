@@ -5,43 +5,83 @@ include_once "DB.php";
 Class User{
 
 	//attributs
+	private $id;
 	private $login;
 	private $mdp;
-	private $id;
 	private $admin;
 	private $mail;
 	private $ListeFormation = array();
 
-	//constructeur
-	function __construct($login,$mdp){
+	/* Constructeur */
 
-		$data		= new DB_User();
-		$Formation  = new Formation();
+	function __construct($id, $login, $mail) {
+		$this->id = $id;
+		$this->login = $login;
+		$this->mail = $mail;
+	}
 
-		$retour = $data->checkId($login,$mdp)
+	//Vérification des identifiants de connexion
+	function CheckConnexion($login,$mdp) {
+		$data = new DB_User();
 
-		if (!$retour){
-			scriptAlert("Les identifiants saisis sont incorrects");
+		$retour = $data->checkId($login,$mdp);
 
+		if (!$retour)
 			return false;
-		}else{
-			$this->id 		= $retour["user_id"];
-			$this->admin 	= $retour["user_admin"];
-			$this->login 	= $retour["user_login"];
-			$this->mail 	= $retour["user_mail"];
 
-			$this->ListeFormation = $Formation->getFormationUser();
+		else {
+			$utilisateur =  array(
+				"id" => $retour["user_id"],
+				"login" => $retour["user_login"],
+				"mail" => $retour["user_mail"]
+				);
 
-			return true;
+			return $utilisateur;
 		}
 	}
 
-	//renvoi un tableau de formations suivi par l'utilisateur
-	function getFormationUser(){
+	//getters et setters
+	function getId() {
+		return $this->id;
+	}
 
+	function getLogin() {
+		return $this->login;
+	}
+
+	function getMail() {
+		return $this->mail;
+	}
+
+	//renvoi un tableau de formations suivi par l'utilisateur
+	function getFormationUser($statut) {
 		$data = new DB_Formation();
 
-		$this->ListeFormation = $data->getFormationUser($this->id);
+		$this->ListeFormation = $data->getFormationUser($this->id, $statut);
+	}
+
+	function getFormationsDemandees() {
+		$data = new DB_Formation();
+
+		return $data->getFormationUser($this->id, 0);
+	}
+
+	function getFormationsAnnulees() {
+		$data = new DB_Formation();
+
+		return $data->getFormationUser($this->id, -1);
+	}
+
+	function getFormationsEnCours() {
+		$data = new DB_Formation();
+
+		return $data->getFormationUser($this->id, 1);
+	}
+
+	function getFormationsTerminees() {
+		$data = new DB_Formation();
+
+		return $data->getFormationUser($this->id, 2);
 	}
 }
 

@@ -51,6 +51,7 @@ function aside($id) {
 					echo "<td>Login</td>\n";
 					echo "<td>".$_SESSION["login"]."</td>\n";
 				echo "</tr>\n";
+				
 				echo "<tr>\n";
 					echo "<td>Mail</td>\n";
 					echo "<td>".$_SESSION["mail"]."</td>\n";

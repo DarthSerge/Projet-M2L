@@ -6,6 +6,7 @@ Class Formation{
 
 	//attributs 
 	private $contenu;
+	private $libelle;
 	private $dateDebut;
 	private $dateFin;
 	private $nombreJours;
@@ -14,12 +15,11 @@ Class Formation{
 	private $prestataire;
 	private $image;
 	private $id;
-	private $etat;
 
 	//constructeur
-	function __construct($contenu, $dateDebut, $DateFin, $nombreJours, $lieu, $requis, $prestataire, $image,$id) {
-
+	function __construct($contenu, $dateDebut, $DateFin, $nombreJours, $lieu, $requis, $prestataire, $image, $id, $libelle) {
 		$this->id = $id;
+		$this->libelle = $libelle;
 		$this->contenu = $contenu;
 		$this->dateDebut = $dateDebut;
 		$this->dateFin = $dateFin;
@@ -33,6 +33,10 @@ Class Formation{
 	//getters et setters
 	function getId() {
 		return $this->id;
+	}
+
+	function getLibelle() {
+		return $this->libelle;
 	}
 
 	function getContenu() {
@@ -70,7 +74,6 @@ Class Formation{
 	function getAllFormation() {
 		
 	}
-
 }
 
 ?>

@@ -25,15 +25,19 @@ if (isset($_POST["login"]) && isset($_POST["mdp"])) {
 	}
 
 	if (!$error) {
-		$db = new DB_User;
+		$utilisateur = new User(0, "", "");
 
-		if ($db->checkId($login,$_POST["mdp"])) {
-			$_SESSION["id"] = 2;
-			$_SESSION["login"] = "pipoulefifou";
-			$_SESSION["mail"] = "pipou@lefifou.com";
-			redirect("compte.php");
-		} else
+		$test = $utilisateur->CheckConnexion($login, $_POST["mdp"]);
+
+		if (!$test)
 			$msgErreur = "Identifiants incorrect !";
+
+		else {
+			$_SESSION["id"] = $test["id"];
+			$_SESSION["login"] = $test["login"];
+			$_SESSION["mail"] = $test["mail"];
+			redirect("compte.php");
+		}
 	}
 }
 
