@@ -41,10 +41,25 @@ function debutPage($titre) {
 		echo "</header>\n";
 	}
 		echo "<section>\n";
-			echo "<aside>\n";
-			echo "</aside>\n";
+}
 
-			echo "<article>\n";
+function aside($id) {
+	if ($id != 0) {
+		echo "<aside>\n";
+			echo "<table border=\"1\">\n";
+				echo "<tr>\n";
+					echo "<td>Login</td>\n";
+					echo "<td>".$_SESSION["login"]."</td>\n";
+				echo "</tr>\n";
+				echo "<tr>\n";
+					echo "<td>Mail</td>\n";
+					echo "<td>".$_SESSION["mail"]."</td>\n";
+				echo "</tr>\n";
+			echo "</table>\n";
+		echo "</aside>\n";
+	}
+
+	echo "<article>\n";
 }
 
 function finPage() {
