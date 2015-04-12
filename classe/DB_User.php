@@ -9,21 +9,19 @@ Class DB_User extends DB {
 
 		//connection a la base
 		$dbh = $this->connect();
-		$sql = "SELECT user_id,user_admin FROM user WHERE user_login = :login AND user_mdp = :mdp";
+		$sql = "SELECT user_id,user_admin,user_login,user_mail FROM user WHERE user_login = :login AND user_mdp = :mdp";
 
 		//on envoie la requête et on bind les arguments
 		$stmt = $dbh->prepare($sql);
 		$stmt->BindValue(':login',$login);
 		$stmt->BindValue(':mdp',md5($mdp));
 		
-		//renvoi vrai si les identifiants sont correct ou faux si erreur SQL ou identifiants incorrects
+		//vrai si les identifiants sont corrects ou faux dans le cas contraire
 		if ($stmt->execute()){
+			$retour = $stmt->fetch(PDO::FETCH_ASSOC)
 
-			//si identifié on crée l'objet utilisateur en cours
-			if ($stmt->fetch() != null){
-				$this->id = $stmt->fetch()["id"];
-				$this->admin = $stmt->fetch()["admin"];
-				return true;
+			if ($retour["user_id"] != Null){
+				return $retour;
 			}else{
 				return false;
 			}

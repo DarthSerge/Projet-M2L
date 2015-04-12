@@ -17,7 +17,7 @@ Class Formation{
 	private $etat;
 
 	//constructeur
-	function __construct($contenu, $dateDebut, $DateFin, $nombreJours, $lieu, $requis, $prestataire, $image, $etat, $id) {
+	function __construct($contenu, $dateDebut, $DateFin, $nombreJours, $lieu, $requis, $prestataire, $image,$id) {
 
 		$this->id = $id;
 		$this->contenu = $contenu;
