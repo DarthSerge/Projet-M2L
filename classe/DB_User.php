@@ -35,7 +35,7 @@ Class DB_User extends DB {
 	}
 
 	//ajoute/supprime des formations à l'utilisateur
-	function updateFormationUser(){
+	function updateFormationUser($id){
 
 		//connection à la base et début de transaction
 		$dbh = $this->connect();
@@ -46,7 +46,7 @@ Class DB_User extends DB {
 
 		//on envoie la requête et on bind les arguments
 		$stmt = $dbh->prepare($sql);
-		$stmt->BindValue(':id',$this->id);
+		$stmt->BindValue(':id',$id);
 
 		//si la requete échoue on annule la transaction
 		if (!$stmt->execute()){
@@ -63,7 +63,7 @@ Class DB_User extends DB {
 
 			//on envoie la requête et on bind les arguments
 			$stmt = $dbh->prepare($sql);
-			$stmt->BindValue(':userId',$this->id);
+			$stmt->BindValue(':userId',$id);
 			$stmt->BindValue(':formationID',$Formation->getId());
 
 			//si la requete échoue on annule la transaction

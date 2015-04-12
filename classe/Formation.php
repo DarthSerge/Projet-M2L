@@ -5,29 +5,24 @@ include_once "DB.php";
 Class Formation{
 
 	//attributs 
-	private $contenu;
+	private $id;
 	private $libelle;
 	private $dateDebut;
 	private $dateFin;
-	private $nombreJours;
 	private $lieu;
 	private $requis;
+	private $prestataire_id; //ne sert que pour faciliter le constructeur
 	private $prestataire;
-	private $image;
-	private $id;
 
-	//constructeur
-	function __construct($contenu, $dateDebut, $DateFin, $nombreJours, $lieu, $requis, $prestataire, $image, $id, $libelle) {
-		$this->id = $id;
-		$this->libelle = $libelle;
-		$this->contenu = $contenu;
-		$this->dateDebut = $dateDebut;
-		$this->dateFin = $dateFin;
-		$this->nombreJours = $nombreJours;
-		$this->lieu = $lieu;
-		$this->requis = $requis;
-		$this->prestataire = $prestataire;
-		$this->image = $image;
+	//constructeur (penser à mettre le prestataire_id)
+	function __construct($id,$libelle,$dateDebut, $DateFin,$lieu, $requis, $prestataire_id){
+		$this->id 			= $id;
+		$this->libelle 		= $libelle;
+		$this->dateDebut 	= $dateDebut;
+		$this->dateFin		= $dateFin;
+		$this->lieu 		= $lieu;
+		$this->requis 		= $requis;
+		$this->prestataire 	= new Prestataire($prestataire_id)
 	}
 
 	//getters et setters
@@ -71,8 +66,11 @@ Class Formation{
 		return $this->image;
 	}
 
+	//renvoi un tableau d'objet formation contenant toutes les formations
 	function getAllFormation() {
-		
+		$data = new DB_Formation();
+
+		return $data->getAllFormation();
 	}
 }
 

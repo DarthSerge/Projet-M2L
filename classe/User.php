@@ -1,6 +1,8 @@
 <?php
 
 include_once "DB.php";
+include_once "DB_Formation.php";
+include_once "DB_User.php"
 
 Class User{
 
@@ -13,7 +15,6 @@ Class User{
 	private $ListeFormation = array();
 
 	/* Constructeur */
-
 	function __construct($id, $login, $mail) {
 		$this->id = $id;
 		$this->login = $login;
@@ -88,6 +89,14 @@ Class User{
 		$data = new DB_Formation();
 
 		return $data->getFormationUser($this->id, "terminee");
+	}
+
+	//modifie les formations d'un utilisateur
+	//renvoi vrai ou faux selon la bonne execution de la requete
+	function updateFormationUser(){
+		$data = new DB_User();
+
+		return $data->updateFormationUser($this->id);
 	}
 }
 

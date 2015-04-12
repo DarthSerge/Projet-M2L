@@ -19,16 +19,14 @@ Class DB_Formation extends DB {
 
 		if ($stmt->execute()){
 			while($data = $stmt->fetch()){
-				$Formation = new Formation($data["form_contenu"],
+				$Formation = new Formation($data["form_id"],
+					  					   $data["form_libelle"],
 										   $data["form_date_debut"],
 										   $data["form_date_fin"],
-										   $data["nombre_jours"],
 										   $data["form_lieu"],
-										   $data["form_requis"],
-										   $sata["form_prestataire"],
-										   $data["form_image"],
-										   $data["form_id"],
-										   $data["form_libelle"]);
+										   $data["form_prerequis"],
+										   $data["form_cout_credit"],
+										   $data["prest_id"]);
 				$Liste[] = $Formation;
 			}
 
@@ -39,8 +37,9 @@ Class DB_Formation extends DB {
 		return $Liste;
 	}
 
+	//Je ne sais pas comment tu veux la gérer alors je te la laisse (râle pas y'a qu'a copier la construction ligne 21 à 30)
 	//renvoi la liste des formations suivi parl'utilisateur spécifié
-	function getFormationUser($userId, $statut) {
+	function getFormationUser($userId, $statut){
 
 		$Liste = array();
 
@@ -76,6 +75,8 @@ Class DB_Formation extends DB {
 		}
 		return $Liste;
 	}
+
+	function 
 }
 
 ?>
