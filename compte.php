@@ -9,6 +9,7 @@ $user = new User($_SESSION["id"], $_SESSION["login"], $_SESSION["mail"]);
 
 $annulees = $user->getFormationsAnnulees();
 $demandees = $user->getFormationsDemandees();
+$acceptees = $user->getFormationsAcceptees();
 $enCours = $user->getFormationsEnCours();
 $terminees = $user->getFormationsTerminees();
 

@@ -60,28 +60,34 @@ Class User{
 		$this->ListeFormation = $data->getFormationUser($this->id, $statut);
 	}
 
-	function getFormationsDemandees() {
-		$data = new DB_Formation();
-
-		return $data->getFormationUser($this->id, 0);
-	}
-
 	function getFormationsAnnulees() {
 		$data = new DB_Formation();
 
-		return $data->getFormationUser($this->id, -1);
+		return $data->getFormationUser($this->id, "annulee");
+	}
+
+	function getFormationsDemandees() {
+		$data = new DB_Formation();
+
+		return $data->getFormationUser($this->id, "demandee");
+	}
+
+	function getFormationsAcceptees() {
+		$data = new DB_Formation();
+
+		return $data->getFormationUser($this->id, "acceptee");
 	}
 
 	function getFormationsEnCours() {
 		$data = new DB_Formation();
 
-		return $data->getFormationUser($this->id, 1);
+		return $data->getFormationUser($this->id, "encours");
 	}
 
 	function getFormationsTerminees() {
 		$data = new DB_Formation();
 
-		return $data->getFormationUser($this->id, 2);
+		return $data->getFormationUser($this->id, "terminee");
 	}
 }
 
