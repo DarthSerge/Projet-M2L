@@ -1,6 +1,8 @@
 <?php
 
-Class DB_Formation extends DB{
+include_once "DB.php";
+
+Class DB_Formation extends DB {
 
 
 	//renvoi la liste complète des formations sous forme de tableau d'objet

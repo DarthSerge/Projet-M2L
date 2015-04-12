@@ -1,6 +1,6 @@
 <?php 
 
-Class Connection{
+Class DB {
 
 	const USER = 'root';
 	const PASSWORD = '';
@@ -13,17 +13,16 @@ Class Connection{
 		//Définition des paramètre de connection PDO
 		$dsn="mysql:".self::HOTE.";port=".self::PORT.";dbname=".self::BASE;
 
-		try
-		{	
+		try {	
 			//Connection à la base MySQL
 			$dbh = new PDO($dsn, self::USER, self::PASSWORD);
-				
 		}
-		catch (PDOException $e)
-		{
+		catch (PDOException $e) {
 			die("Erreur! :" . $e->getMessage());
 		}
+
 		return $dbh;
 	}
 }
+
 ?>

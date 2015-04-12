@@ -1,9 +1,8 @@
 <?php
 
-include("DB.php");
-include("Script.php");
+include_once "DB.php";
 
-Class DB_User extends Connection{
+Class DB_User extends DB {
 
 	//test de connection
 	function checkId($login,$mdp){
@@ -30,7 +29,7 @@ Class DB_User extends Connection{
 			}
 		}
 		else{
-			scriptAlert("Erreur dans la requête");
+			echo("Erreur dans la requête");
 			return false;
 		}
 	}
@@ -52,7 +51,7 @@ Class DB_User extends Connection{
 		//si la requete échoue on annule la transaction
 		if (!$stmt->execute()){
 			$dbh->rollBack();
-			scriptAlert("Erreur dans la de suppression");
+			echo("Erreur dans la de suppression");
 			return false;
 		}
 
@@ -70,7 +69,7 @@ Class DB_User extends Connection{
 			//si la requete échoue on annule la transaction
 			if (!$stmt->execute()){
 			$dbh->rollBack();
-			scriptAlert("Erreur dans la requete d'insertion");
+			echo("Erreur dans la requete d'insertion");
 			return false;
 			}
 			

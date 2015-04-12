@@ -1,7 +1,6 @@
 <?php
 
-include('DB.php');
-include('Script.php');
+include_once "DB.php";
 
 Class User{
 

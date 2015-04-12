@@ -1,7 +1,6 @@
 <?php 
 
-include('DB.php');
-include('Script.php');
+include_once "DB.php";
 
 Class Formation{
 
@@ -18,7 +17,7 @@ Class Formation{
 	private $etat;
 
 	//constructeur
-	function __construct($contenu,$dateDebut,$DateFin,$nombreJours,$lieu,$requis;$prestataire,$image,$etat,$id){
+	function __construct($contenu, $dateDebut, $DateFin, $nombreJours, $lieu, $requis, $prestataire, $image, $etat, $id) {
 
 		$this->id = $id;
 		$this->contenu = $contenu;
@@ -32,79 +31,43 @@ Class Formation{
 	}
 
 	//getters et setters
-	function getContenu(){
-		return $this->contenu;
-	}
-
-	function getId(){
+	function getId() {
 		return $this->id;
 	}
 
-	function getDateDebut(){
+	function getContenu() {
+		return $this->contenu;
+	}
+
+	function getDateDebut() {
 		return $this->dateDebut;
 	}
 
-	function getDateFin(){
+	function getDateFin() {
 		return $this->datefin;
 	}
 
-	function getNombreJours(){
+	function getNombreJours() {
 		return $this->nombreJours;
 	}
 
-	function getLieu(){
+	function getLieu() {
 		return $this->lieu;
 	}
 
-	function getRequis(){
+	function getRequis() {
 		return $this->requis;
 	}
 
-	function getPrestataire(){
+	function getPrestataire() {
 		return $this->prestataire;
 	}
 
-	function getImage(){
+	function getImage() {
 		return $this->image;
 	}
 
-	function setContenu($contenu){
-		$this->contenu = $contenu;
-	}
-
-	function setContenu($id){
-		$this->id = $id;
-	}
-
-	function setContenu($dateDebut){
-		$this->dateDebut = $dateDebut;
-	}
-
-	function setContenu($dateFin){
-		$this->dateFin = $dateFin;
-	}
-
-	function setContenu($nombreJours){
-		$this->nombreJours = $nombreJours;
-	}
-
-	function setContenu($lieu){
-		$this->lieu = $lieu;
-	}
-
-	function setContenu($requis){
-		$this->requis = $requis;
-	}
-
-	function setContenu($prestataire){
-		$this->prestataire = $prestataire;
-	}
-
-	function setContenu($image){
-		$this->image = $image;
-	}
-
-	function getAllFormation{
+	function getAllFormation() {
 		
 	}
 
