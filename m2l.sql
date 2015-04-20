@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Lun 20 Avril 2015 à 20:50
+-- Généré le :  Lun 20 Avril 2015 à 22:12
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -26,7 +26,6 @@ DELIMITER $$
 --
 -- Procédures
 --
-DROP PROCEDURE IF EXISTS `checkCredit`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `checkCredit`(IN `id` INT)
     DETERMINISTIC
     SQL SECURITY INVOKER
@@ -48,7 +47,6 @@ DELIMITER ;
 -- Structure de la table `formation`
 --
 
-DROP TABLE IF EXISTS `formation`;
 CREATE TABLE IF NOT EXISTS `formation` (
   `form_id` int(11) NOT NULL AUTO_INCREMENT,
   `form_libelle` varchar(100) NOT NULL,
@@ -80,7 +78,6 @@ INSERT INTO `formation` (`form_id`, `form_libelle`, `form_contenu`, `form_date_d
 -- Structure de la table `parametres`
 --
 
-DROP TABLE IF EXISTS `parametres`;
 CREATE TABLE IF NOT EXISTS `parametres` (
   `credits` int(11) NOT NULL,
   `jours` int(11) NOT NULL
@@ -99,7 +96,6 @@ INSERT INTO `parametres` (`credits`, `jours`) VALUES
 -- Structure de la table `participe`
 --
 
-DROP TABLE IF EXISTS `participe`;
 CREATE TABLE IF NOT EXISTS `participe` (
   `form_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -113,6 +109,7 @@ CREATE TABLE IF NOT EXISTS `participe` (
 --
 
 INSERT INTO `participe` (`form_id`, `user_id`, `part_statut`) VALUES
+(1, 1, 'annulee'),
 (1, 2, 'demandee'),
 (2, 2, 'annulee'),
 (3, 2, 'terminee'),
@@ -125,7 +122,6 @@ INSERT INTO `participe` (`form_id`, `user_id`, `part_statut`) VALUES
 -- Structure de la table `prestataire`
 --
 
-DROP TABLE IF EXISTS `prestataire`;
 CREATE TABLE IF NOT EXISTS `prestataire` (
   `prest_id` int(11) NOT NULL AUTO_INCREMENT,
   `prest_raison_sociale` varchar(50) NOT NULL,
@@ -148,7 +144,6 @@ INSERT INTO `prestataire` (`prest_id`, `prest_raison_sociale`, `prest_adresse`, 
 -- Structure de la table `user`
 --
 
-DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_login` varchar(50) NOT NULL,
@@ -184,6 +179,16 @@ ALTER TABLE `formation`
 ALTER TABLE `participe`
   ADD CONSTRAINT `FK_participe_form_id` FOREIGN KEY (`form_id`) REFERENCES `formation` (`form_id`),
   ADD CONSTRAINT `FK_participe_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+
+DELIMITER $$
+--
+-- Événements
+--
+CREATE DEFINER=`root`@`localhost` EVENT `majFormationTerminee` ON SCHEDULE EVERY 1 DAY STARTS '2015-04-20 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE participe SET part_statut='terminee' WHERE part_statut='encours' AND form_id IN (SELECT form_id FROM formation WHERE form_date_fin = SUBDATE(CURDATE(),1))$$
+
+CREATE DEFINER=`root`@`localhost` EVENT `majFormationEnCours` ON SCHEDULE EVERY 1 DAY STARTS '2015-04-20 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE participe SET part_statut='encours' WHERE part_statut='acceptee' AND form_id IN (SELECT form_id FROM formation WHERE 		form_date_debut = DATE(NOW()))$$
+
+DELIMITER ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
