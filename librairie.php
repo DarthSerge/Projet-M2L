@@ -43,10 +43,10 @@ function debutPage($titre) {
 
 		echo "<header>\n";
 			echo "<ul>\n";
-				echo "<li class=\"nav\"><a href=\"index.php\">Mon compte</a></li>\n";
+				echo "<li class=\"nav\"><a href=\"compte.php\">Mon compte</a></li>\n";
 				echo "<li class=\"nav\"><a href=\"mailto:jeanfrancois.poivey@free.fr\">Contactez-nous</a></li>\n";
 				echo "<li class=\"nav\"><a href=\"formations.php\">Les formations</a></li>\n";
-				echo "<li class=\"nav\" id=\"deconnexion\"><a href=\"".getFichier()."?deconnexion\">Se déconnecter</a></li>\n";
+				echo "<li class=\"nav\"><a href=\"".getFichier()."?deconnexion\" id=\"deconnexion\">Se déconnecter</a></li>\n";
 			echo "</ul>\n";
 		echo "</header>\n";
 	}

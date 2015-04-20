@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$("#deconnexion").click(function(){
 		if (confirm('Voulez-vous vraiment vous déconnecter ?'))
-			document.location.href('?deconnexion');
+			document.location.href = '?deconnexion';
 	});
 });
