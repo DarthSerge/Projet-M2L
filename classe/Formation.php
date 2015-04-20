@@ -7,22 +7,25 @@ Class Formation{
 	//attributs 
 	private $id;
 	private $libelle;
+	private $contenu;
 	private $dateDebut;
 	private $dateFin;
 	private $lieu;
 	private $requis;
-	private $prestataire_id; //ne sert que pour faciliter le constructeur
+	private $credits;
 	private $prestataire;
 
 	//constructeur (penser à mettre le prestataire_id)
-	function __construct($id,$libelle,$dateDebut, $DateFin,$lieu, $requis, $prestataire_id){
-		$this->id 			= $id;
-		$this->libelle 		= $libelle;
-		$this->dateDebut 	= $dateDebut;
-		$this->dateFin		= $dateFin;
-		$this->lieu 		= $lieu;
-		$this->requis 		= $requis;
-		$this->prestataire 	= new Prestataire($prestataire_id)
+	function __construct($id, $libelle, $contenu, $dateDebut, $dateFin, $lieu, $requis, $credits, $prestataire_id) {
+		$this->id = $id;
+		$this->libelle = $libelle;
+		$this->contenu = $contenu;
+		$this->dateDebut = $dateDebut;
+		$this->dateFin = $dateFin;
+		$this->lieu = $lieu;
+		$this->requis = $requis;
+		$this->credits = $credits;
+		$this->prestataire = new Prestataire($prestataire_id);
 	}
 
 	//getters et setters
@@ -43,11 +46,7 @@ Class Formation{
 	}
 
 	function getDateFin() {
-		return $this->datefin;
-	}
-
-	function getNombreJours() {
-		return $this->nombreJours;
+		return $this->dateFin;
 	}
 
 	function getLieu() {
@@ -62,8 +61,8 @@ Class Formation{
 		return $this->prestataire;
 	}
 
-	function getImage() {
-		return $this->image;
+	function getCredits() {
+		return $this->credits;
 	}
 
 	//renvoi un tableau d'objet formation contenant toutes les formations

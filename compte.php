@@ -13,42 +13,38 @@ $acceptees = $user->getFormationsAcceptees();
 $enCours = $user->getFormationsEnCours();
 $terminees = $user->getFormationsTerminees();
 
-echo "<table border=\"1\">\n";
-	echo "<tr>\n";
-		echo "<td>Libellé</td>\n";
-		echo "<td>Date de début</td>\n";
-		echo "<td>Date de fin</td>\n";
-		echo "<td>Lieu</td>\n";
-		echo "<td>Crédits</td>\n";
-	echo "</tr>\n";
+echo "<table id=\"tableauFormations\">\n";
 
-	echo "<tr>\n";
-		echo "<td cols=\"5\">Formations annulées</td>\n";
-	echo "</tr>\n";
+/* Formations en cours */
 
-	echo "<tr>\n";
-	echo "</tr>\n";
+ligneLabelFormations("Formations en cours");
 
-	echo "<tr>\n";
-		echo "<td cols=\"5\">Formations annulées</td>\n";
-	echo "</tr>\n";
+listeTableauFormations($enCours);
 
-	echo "<tr>\n";
-	echo "</tr>\n";
+/* Formations acceptées */
 
-	echo "<tr>\n";
-		echo "<td cols=\"5\">Formations annulées</td>\n";
-	echo "</tr>\n";
+ligneLabelFormations("Formations acceptées");
 
-	echo "<tr>\n";
-	echo "</tr>\n";
+listeTableauFormations($acceptees);
 
-	echo "<tr>\n";
-		echo "<td cols=\"5\">Formations annulées</td>\n";
-	echo "</tr>\n";
+/* Formations terminées */
 
-	echo "<tr>\n";
-	echo "</tr>\n";
+ligneLabelFormations("Formations terminées");
+
+listeTableauFormations($terminees);
+
+/* Formations demandées */
+
+ligneLabelFormations("Formations demandées");
+
+listeTableauFormations($demandees);
+
+/* Formations annulées */
+
+ligneLabelFormations("Formations annulées");
+
+listeTableauFormations($annulees);
+
 echo "</table>\n";
 
 finPage();

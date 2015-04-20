@@ -1,6 +1,6 @@
 <?php
 
-include_once "DB_Pretataire";
+include_once "DB_Prestataire.php";
 
 class Prestataire{
 
@@ -12,15 +12,15 @@ class Prestataire{
 
 	//constructeur
 	function __construct($id){
-		$data = new DB_Pretataire();
+		$data = new DB_Prestataire();
 
 		$retour = $data->getPrestataire($id);
 		
-		$this->id 				= $retour["prest_id"];
-		$this->raisonSociale 	= $retour["prest_raison_sociale"];
-		$this->adresse 			= $retour["prest_adresse"];
-		$this->telephone 		= $retour["prest_telephone"];
-		$this->siret 			= $retour["prest_siret"];
+		$this->id = $retour["prest_id"];
+		$this->raisonSociale = $retour["prest_raison_sociale"];
+		$this->adresse = $retour["prest_adresse"];
+		$this->telephone = $retour["prest_telephone"];
+		$this->siret = $retour["prest_siret"];
 	}
 
 	//getters

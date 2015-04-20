@@ -2,9 +2,9 @@
 
 include_once "DB.php";
 include_once "DB_Formation.php";
-include_once "DB_User.php"
+include_once "DB_User.php";
 
-Class User{
+Class User {
 
 	//attributs
 	private $id;

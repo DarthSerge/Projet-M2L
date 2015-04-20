@@ -7,7 +7,7 @@ html {
 }
 
 body {
-	width: 960px;
+	width: 100%;
 	margin: auto;
 }
 
@@ -133,37 +133,48 @@ a {
 	font-weight: bold;
 }
 
-div#errorLog {
-	position: absolute;
-	top: 250px;
-	left: 42pc;
-	font-weight: bold;
-	color: #BC0026;
-}
-
-div#errorPass {
-	position: absolute;
-	top: 195px;
-	left: 45pc;
-	font-weight: bold;
-	color: #BC0026;
-}
-
-#tab {
+#tableauFormations {
 	margin: auto;
 	margin-top: 100px;
-	width: 70%;
-	border-top: 1px solid #aacfe4;
-	border-bottom: 1px solid #aacfe4;
-	border-left: 1px solid #aacfe4;
-	border-right: 1px solid #aacfe4;
+	width: 90%;
+	border-collapse: collapse;
 	background-color: #ebf4fb;
-}
-
-#tab th {
-	border-bottom: 1px solid #aacfe4;
-}
-
-#tab td {
 	text-align: center;
+}
+
+#tableauFormations th, #tableauFormations td {
+	border: 1px solid #aacfe4;
+}
+
+#tableauFormations .typeFormations {
+	font-size: 1.2em;
+	margin-bottom: 50px;
+}
+
+#tableauFormations .libelle{
+	width: 15%;
+}
+
+#tableauFormations .contenu{
+	width: 25%;
+}
+
+#tableauFormations .date{
+	width: 10%;
+}
+
+#tableauFormations .lieu{
+	width: 8%;
+}
+
+#tableauFormations .prerequis{
+	width: 15%;
+}
+
+#tableauFormations .prestataire{
+	width: 10%;
+}
+
+#tableauFormations .credits{
+	width: 7%;
 }

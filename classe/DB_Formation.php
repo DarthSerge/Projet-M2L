@@ -4,49 +4,93 @@ include_once "DB.php";
 
 Class DB_Formation extends DB {
 
+	function misaAJourFormations(){
+		//connection a la base
+		$dbh = $this->connect();
+
+		/* Mise à jour des formations acceptées */
+
+		$liste = "(0";
+
+		$sql = "SELECT form_id FROM formation WHERE form_date_debut = '".date("Y-m-d")."'";
+
+		//on envoie la requête
+		$stmt1 = $dbh->prepare($sql);
+
+		if ($stmt1->execute()) {
+			while($data = $stmt1->fetch(PDO::FETCH_ASSOC))
+				$liste .= ",".$data["form_id"];
+
+			$liste .= ")";
+
+			$sql = "UPDATE participe SET part_statut='encours' WHERE part_statut='acceptee' AND form_id IN ".$liste;
+			$stmt2 = $dbh->prepare($sql);
+			$stmt2->execute();
+		}
+
+		/* Mise à jour des formations en cours */
+
+		$liste = "(0";
+
+		$sql = "SELECT form_id FROM formation WHERE form_date_fin = '".date("Y-m-d")."'";
+
+		//on envoie la requête
+		$stmt1 = $dbh->prepare($sql);
+
+		if ($stmt1->execute()) {
+			while($data = $stmt1->fetch(PDO::FETCH_ASSOC))
+				$liste .= ",".$data["form_id"];
+
+			$liste .= ")";
+
+			$sql = "UPDATE participe SET part_statut='terminee' WHERE part_statut='encours' AND form_id IN ".$liste;
+			$stmt2 = $dbh->prepare($sql);
+			$stmt2->execute();
+		}
+	}
 
 	//renvoi la liste complète des formations sous forme de tableau d'objet
 	function getAllFormation(){
 
-		$Liste = array();
+		$listeFormations = array();
 
 		//connection a la base
 		$dbh = $this->connect();
-		$sql = "SELECT form_id, form_libelle, form_contenu,form_date_debut AS debut ,form_date_fin AS fin, DATEDIFF(debut,fin) ,form_lieu,form_requis,form_prestataire_id,form_image FROM formation";
+		$sql = "SELECT form_id, form_libelle, form_contenu, form_date_debut, form_date_fin, form_lieu, form_prerequis, form_cout_credit, prest_id FROM formation";
 
 		//on envoie la requête
 		$stmt = $dbh->prepare($sql);
 
 		if ($stmt->execute()){
-			while($data = $stmt->fetch()){
-				$Formation = new Formation($data["form_id"],
+			while($data = $stmt->fetch(PDO::FETCH_ASSOC)){
+				$formation = new Formation($data["form_id"],
 					  					   $data["form_libelle"],
+										   $data["form_contenu"],
 										   $data["form_date_debut"],
 										   $data["form_date_fin"],
 										   $data["form_lieu"],
 										   $data["form_prerequis"],
 										   $data["form_cout_credit"],
 										   $data["prest_id"]);
-				$Liste[] = $Formation;
+				$listeFormations[] = $formation;
 			}
 
 		}else{
 			echo("Erreur lors de la lecture des données");
 			return false;
 		}
-		return $Liste;
+		return $listeFormations;
 	}
 
-	//Je ne sais pas comment tu veux la gérer alors je te la laisse (râle pas y'a qu'a copier la construction ligne 21 à 30)
 	//renvoi la liste des formations suivi parl'utilisateur spécifié
 	function getFormationUser($userId, $statut){
 
-		$Liste = array();
+		$listeFormations = array();
 
 		//connection a la base
 		$dbh = $this->connect();
 
-		$sql = "SELECT form_id,form_contenu,form_date_debut AS debut ,form_date_fin AS fin,DATEDIFF(debut,fin),form_lieu,form_requis,form_prestataire_id,form_image FROM formation WHERE form_id IN (SELECT form_id FROM participe WHERE user_id = :user_id AND part_statut = :statut)";
+		$sql = "SELECT f.form_id, form_libelle, form_contenu, form_date_debut, form_date_fin, form_lieu, form_prerequis, form_cout_credit, prest_id FROM formation f WHERE form_id IN (SELECT p.form_id FROM participe p WHERE user_id = :userId AND part_statut = :statut)";
 
 		//on envoie la requête et on bind les arguments
 		$stmt = $dbh->prepare($sql);
@@ -54,29 +98,25 @@ Class DB_Formation extends DB {
 		$stmt->BindValue(":statut",$statut);
 
 		if ($stmt->execute()){
-			while($data = $stmt->fetch()){
-				$Formation = new Formation($data["form_contenu"],
+			while($data = $stmt->fetch(PDO::FETCH_ASSOC)){
+				$formation = new Formation($data["form_id"],
+					  					   $data["form_libelle"],
+										   $data["form_contenu"],
 										   $data["form_date_debut"],
 										   $data["form_date_fin"],
-										   $data["nombre_jours"],
 										   $data["form_lieu"],
-										   $data["form_requis"],
-										   $sata["form_prestataire"],
-										   $data["form_image"],
-										   $data["form_etat"],
-										   $data["form_id"],
-										   $data["form_libelle"]);
-				$Liste[] = $Formation;
+										   $data["form_prerequis"],
+										   $data["form_cout_credit"],
+										   $data["prest_id"]);
+				$listeFormations[] = $formation;
 			}
 
 		}else{
 			echo("Erreur lors de la lecture des données");
 			return false;
 		}
-		return $Liste;
+		return $listeFormations;
 	}
-
-	function 
 }
 
 ?>

@@ -11,7 +11,10 @@ $msgLogin = "";
 $msgMDP = "";
 $error = false;
 
-if (isset($_POST["login"]) && isset($_POST["mdp"])) {
+if (isset($_SESSION["id"]))
+	redirect("compte.php");
+
+elseif (isset($_POST["login"]) && isset($_POST["mdp"])) {
 	$login = $_POST["login"];
 
 	if ($login == "") {
@@ -33,6 +36,9 @@ if (isset($_POST["login"]) && isset($_POST["mdp"])) {
 			$msgErreur = "Identifiants incorrect !";
 
 		else {
+			$miseAJour = new DB_Formation();
+			$miseAJour->misaAJourFormations();
+
 			$_SESSION["id"] = $test["id"];
 			$_SESSION["login"] = $test["login"];
 			$_SESSION["mail"] = $test["mail"];
