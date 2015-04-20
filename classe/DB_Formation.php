@@ -97,7 +97,7 @@ Class DB_Formation extends DB {
 		$stmt->BindValue(":userId",$userId);
 		$stmt->BindValue(":statut",$statut);
 
-		if ($stmt->execute()){
+		if ($stmt->execute())
 			while($data = $stmt->fetch(PDO::FETCH_ASSOC)){
 				$formation = new Formation($data["form_id"],
 					  					   $data["form_libelle"],
@@ -111,7 +111,7 @@ Class DB_Formation extends DB {
 				$listeFormations[] = $formation;
 			}
 
-		}else{
+		 else {
 			echo("Erreur lors de la lecture des données");
 			return false;
 		}
