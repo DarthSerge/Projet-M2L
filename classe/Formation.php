@@ -64,13 +64,6 @@ Class Formation{
 	function getCredits() {
 		return $this->credits;
 	}
-
-	//renvoi un tableau d'objet formation contenant toutes les formations
-	function getAllFormation() {
-		$data = new DB_Formation();
-
-		return $data->getAllFormation();
-	}
 }
 
 ?>

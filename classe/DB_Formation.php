@@ -50,13 +50,13 @@ Class DB_Formation extends DB {
 	}
 
 	//renvoi la liste complète des formations sous forme de tableau d'objet
-	function getAllFormation(){
+	function getAllFormations(){
 
 		$listeFormations = array();
 
 		//connection a la base
 		$dbh = $this->connect();
-		$sql = "SELECT form_id, form_libelle, form_contenu, form_date_debut, form_date_fin, form_lieu, form_prerequis, form_cout_credit, prest_id FROM formation";
+		$sql = "SELECT form_id, form_libelle, form_contenu, form_date_debut, form_date_fin, form_lieu, form_prerequis, form_cout_credit, prest_id FROM formation WHERE form_date_debut>CURDATE()";
 
 		//on envoie la requête
 		$stmt = $dbh->prepare($sql);
@@ -74,6 +74,31 @@ Class DB_Formation extends DB {
 										   $data["prest_id"]);
 				$listeFormations[] = $formation;
 			}
+
+		}else{
+			echo("Erreur lors de la lecture des données");
+			return false;
+		}
+		return $listeFormations;
+	}
+
+	//renvoi la liste complète des formations sous forme de tableau d'objet
+	function getFormations($id, $statut){
+
+		$listeFormations = array();
+
+		//connection a la base
+		$dbh = $this->connect();
+		$sql = "CALL getFormations(:id, :statut)";
+
+		//on envoie la requête
+		$stmt = $dbh->prepare($sql);
+		$stmt->BindValue(":id",$id);
+		$stmt->BindValue(":statut",$statut);
+
+		if ($stmt->execute()){
+			while($data = $stmt->fetch(PDO::FETCH_ASSOC))
+				$listeFormations[] = $data["form_id"];
 
 		}else{
 			echo("Erreur lors de la lecture des données");

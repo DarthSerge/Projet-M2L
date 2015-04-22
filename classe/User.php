@@ -54,11 +54,17 @@ Class User {
 		return $this->mail;
 	}
 
-	//renvoi un tableau de formations suivi par l'utilisateur
-	function getFormationUser($statut) {
+	//renvoi un tableau d'objet formation contenant toutes les formations
+	function getAllFormations() {
 		$data = new DB_Formation();
 
-		$this->ListeFormation = $data->getFormationUser($this->id, $statut);
+		return $data->getAllFormations();
+	}
+
+	function getListeAnnulees() {
+		$data = new DB_Formation();
+
+		return $data->getFormations($this->id, "annulee");
 	}
 
 	function getFormationsAnnulees() {
@@ -67,10 +73,22 @@ Class User {
 		return $data->getFormationUser($this->id, "annulee");
 	}
 
+	function getListeDemandees() {
+		$data = new DB_Formation();
+
+		return $data->getFormations($this->id, "demandee");
+	}
+
 	function getFormationsDemandees() {
 		$data = new DB_Formation();
 
 		return $data->getFormationUser($this->id, "demandee");
+	}
+
+	function getListeAcceptees() {
+		$data = new DB_Formation();
+
+		return $data->getFormations($this->id, "acceptee");
 	}
 
 	function getFormationsAcceptees() {
@@ -79,10 +97,22 @@ Class User {
 		return $data->getFormationUser($this->id, "acceptee");
 	}
 
+	function getListeEnCours() {
+		$data = new DB_Formation();
+
+		return $data->getFormations($this->id, "encours");
+	}
+
 	function getFormationsEnCours() {
 		$data = new DB_Formation();
 
 		return $data->getFormationUser($this->id, "encours");
+	}
+
+	function getListeTerminees() {
+		$data = new DB_Formation();
+
+		return $data->getFormations($this->id, "terminee");
 	}
 
 	function getFormationsTerminees() {
