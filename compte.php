@@ -7,37 +7,27 @@ aside($_SESSION["id"]);
 
 $user = new User($_SESSION["id"], $_SESSION["login"], $_SESSION["mail"]);
 
-echo "<table id=\"tableauFormations\">\n";
+echo "<table class=\"tableauFormations\">\n";
 
 /* Formations en cours */
 
-ligneLabelFormations("Formations en cours");
-
-listeTableauFormations($user->getFormationsEnCours());
+tabFormations("Formations en cours", $user->getFormationsEnCours());
 
 /* Formations acceptées */
 
-ligneLabelFormations("Formations acceptées");
-
-listeTableauFormations($user->getFormationsAcceptees());
+tabFormations("Formations acceptées", $user->getFormationsAcceptees());
 
 /* Formations terminées */
 
-ligneLabelFormations("Formations terminées");
-
-listeTableauFormations($user->getFormationsTerminees());
+tabFormations("Formations terminées", $user->getFormationsTerminees());
 
 /* Formations demandées */
 
-ligneLabelFormations("Formations demandées");
-
-listeTableauFormations($user->getFormationsDemandees());
+tabFormations("Formations demandées", $user->getFormationsDemandees());
 
 /* Formations annulées */
 
-ligneLabelFormations("Formations annulées");
-
-listeTableauFormations($user->getFormationsAnnulees());
+tabFormations("Formations annulées", $user->getFormationsAnnulees());
 
 echo "</table>\n";
 

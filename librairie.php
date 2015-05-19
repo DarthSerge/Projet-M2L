@@ -130,4 +130,14 @@ function listeTableauFormations($tableau) {
 		}
 }
 
+function tabFormations($label, $tableau) {
+	echo "<table class=\"tableauFormations\">\n";
+
+	ligneLabelFormations($label);
+
+	listeTableauFormations($tableau);
+
+	echo "</table>\n";
+}
+
 ?>

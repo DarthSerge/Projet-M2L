@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Lun 20 Avril 2015 à 22:12
+-- Généré le :  Mar 19 Mai 2015 à 21:17
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -26,17 +26,52 @@ DELIMITER $$
 --
 -- Procédures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `checkCredit`(IN `id` INT)
+DROP PROCEDURE IF EXISTS `getFormations`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getFormations`(IN `id` INT, IN `statut` VARCHAR(25))
+    SQL SECURITY INVOKER
+BEGIN
+	SELECT form_id FROM participe WHERE user_id = id AND part_statut = statut;
+END$$
+
+--
+-- Fonctions
+--
+DROP FUNCTION IF EXISTS `calculJours`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `calculJours`(`id` INT) RETURNS int(11)
+    SQL SECURITY INVOKER
+BEGIN
+	SET @dateDebut = (SELECT form_date_debut FROM formation WHERE form_id = id);
+
+	SET @dateFin = (SELECT form_date_fin FROM formation WHERE form_id = id);
+
+	SET @nbJours = (DATEDIFF(@dateFin, @dateDebut) - (WEEK(@dateFin) - WEEK(@dateDebut)) * 2);
+
+    RETURN @nbJours + 1;
+END$$
+
+DROP FUNCTION IF EXISTS `getCredits`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `getCredits`(`id` INT) RETURNS int(11)
     DETERMINISTIC
     SQL SECURITY INVOKER
 BEGIN
-	SET @credits = (SELECT credits FROM parametres);
+	SET @creditsTotaux = (SELECT param_valeur FROM parametres WHERE param_libelle='credits');
     
-    SET @utilises = (SELECT SUM(form_cout_credit) FROM formation WHERE form_id IN (SELECT form_id FROM participe WHERE user_id = id AND part_statut IN (0, 1, 2, 3)));
+            
+    SET @creditsUtilises = (SELECT SUM(form_cout_credit) FROM formation WHERE form_id IN (SELECT form_id FROM participe WHERE user_id = id AND part_statut <> 'annulee'));
+
+    RETURN IF((@creditsUtilises IS NULL), @creditsTotaux, (@creditsTotaux - @creditsUtilises));
+END$$
+
+DROP FUNCTION IF EXISTS `getJours`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `getJours`(`nb` INT) RETURNS int(11)
+    DETERMINISTIC
+    SQL SECURITY INVOKER
+BEGIN
+	SET @joursTotaux = (SELECT param_valeur FROM parametres WHERE param_libelle='jours');
     
-    SET @restant = (@credits - @utilises);
-    
-    SELECT ROUND(@restant, 0) as nbRestant;
+    SET @joursUtilises = nb;
+
+    RETURN (@joursTotaux - @joursUtilises);
 END$$
 
 DELIMITER ;
@@ -47,6 +82,7 @@ DELIMITER ;
 -- Structure de la table `formation`
 --
 
+DROP TABLE IF EXISTS `formation`;
 CREATE TABLE IF NOT EXISTS `formation` (
   `form_id` int(11) NOT NULL AUTO_INCREMENT,
   `form_libelle` varchar(100) NOT NULL,
@@ -66,11 +102,11 @@ CREATE TABLE IF NOT EXISTS `formation` (
 --
 
 INSERT INTO `formation` (`form_id`, `form_libelle`, `form_contenu`, `form_date_debut`, `form_date_fin`, `form_lieu`, `form_prerequis`, `form_cout_credit`, `prest_id`) VALUES
-(1, 'Ninja 101', 'contenu ninja', '2015-02-02', '2015-02-04', 'Tijuana', 'Que nenni', 150, 1),
-(2, 'Formation nulle', 'contenu nul', '2015-04-15', '2015-04-16', 'Loin', 'Rien', 325, 1),
-(3, 'Formation pourrie', 'contenu pourri', '2015-04-14', '2015-04-15', 'Loin', 'Rien', 124, 1),
-(4, 'Formation inutile', 'contenu inutile', '2015-04-26', '2015-04-28', 'Loin', 'Rien', 1, 1),
-(5, 'Formation kikoo', 'contenu kikoo', '2015-04-14', '2015-04-30', 'N''importe où', 'Osef', 3782, 1);
+(1, 'Ninja 101', 'contenu ninja', '2015-04-29', '2015-04-14', 'Tijuana', 'Que nenni', 150, 1),
+(2, 'Formation nulle', 'contenu nul', '2015-04-22', '2015-04-24', 'Loin', 'Rien', 325, 1),
+(3, 'Formation pourrie', 'contenu pourri', '2015-04-23', '2015-04-15', 'Loin', 'Rien', 124, 1),
+(4, 'Formation inutile', 'contenu inutile', '2015-04-25', '2015-04-28', 'Loin', 'Rien', 1, 1),
+(5, 'Formation kikoo', 'contenu kikoo', '2015-04-26', '2015-04-30', 'N''importe où', 'Osef', 3782, 1);
 
 -- --------------------------------------------------------
 
@@ -78,17 +114,20 @@ INSERT INTO `formation` (`form_id`, `form_libelle`, `form_contenu`, `form_date_d
 -- Structure de la table `parametres`
 --
 
+DROP TABLE IF EXISTS `parametres`;
 CREATE TABLE IF NOT EXISTS `parametres` (
-  `credits` int(11) NOT NULL,
-  `jours` int(11) NOT NULL
+  `param_libelle` varchar(50) NOT NULL,
+  `param_valeur` int(11) NOT NULL,
+  PRIMARY KEY (`param_libelle`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `parametres`
 --
 
-INSERT INTO `parametres` (`credits`, `jours`) VALUES
-(5000, 15);
+INSERT INTO `parametres` (`param_libelle`, `param_valeur`) VALUES
+('credits', 5000),
+('jours', 15);
 
 -- --------------------------------------------------------
 
@@ -96,6 +135,7 @@ INSERT INTO `parametres` (`credits`, `jours`) VALUES
 -- Structure de la table `participe`
 --
 
+DROP TABLE IF EXISTS `participe`;
 CREATE TABLE IF NOT EXISTS `participe` (
   `form_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -109,7 +149,6 @@ CREATE TABLE IF NOT EXISTS `participe` (
 --
 
 INSERT INTO `participe` (`form_id`, `user_id`, `part_statut`) VALUES
-(1, 1, 'annulee'),
 (1, 2, 'demandee'),
 (2, 2, 'annulee'),
 (3, 2, 'terminee'),
@@ -122,6 +161,7 @@ INSERT INTO `participe` (`form_id`, `user_id`, `part_statut`) VALUES
 -- Structure de la table `prestataire`
 --
 
+DROP TABLE IF EXISTS `prestataire`;
 CREATE TABLE IF NOT EXISTS `prestataire` (
   `prest_id` int(11) NOT NULL AUTO_INCREMENT,
   `prest_raison_sociale` varchar(50) NOT NULL,
@@ -144,6 +184,7 @@ INSERT INTO `prestataire` (`prest_id`, `prest_raison_sociale`, `prest_adresse`, 
 -- Structure de la table `user`
 --
 
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_login` varchar(50) NOT NULL,
@@ -184,8 +225,10 @@ DELIMITER $$
 --
 -- Événements
 --
+DROP EVENT `majFormationTerminee`$$
 CREATE DEFINER=`root`@`localhost` EVENT `majFormationTerminee` ON SCHEDULE EVERY 1 DAY STARTS '2015-04-20 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE participe SET part_statut='terminee' WHERE part_statut='encours' AND form_id IN (SELECT form_id FROM formation WHERE form_date_fin = SUBDATE(CURDATE(),1))$$
 
+DROP EVENT `majFormationEnCours`$$
 CREATE DEFINER=`root`@`localhost` EVENT `majFormationEnCours` ON SCHEDULE EVERY 1 DAY STARTS '2015-04-20 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE participe SET part_statut='encours' WHERE part_statut='acceptee' AND form_id IN (SELECT form_id FROM formation WHERE 		form_date_debut = DATE(NOW()))$$
 
 DELIMITER ;

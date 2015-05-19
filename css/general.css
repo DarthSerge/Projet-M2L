@@ -133,48 +133,48 @@ a {
 	font-weight: bold;
 }
 
-#tableauFormations {
+.tableauFormations {
 	margin: auto;
-	margin-top: 100px;
+	margin-top: 30px;
 	width: 90%;
 	border-collapse: collapse;
 	background-color: #ebf4fb;
 	text-align: center;
 }
 
-#tableauFormations th, #tableauFormations td {
+.tableauFormations th, .tableauFormations td {
 	border: 1px solid #aacfe4;
 }
 
-#tableauFormations .typeFormations {
+.tableauFormations .typeFormations {
 	font-size: 1.2em;
 	margin-bottom: 50px;
 }
 
-#tableauFormations .libelle{
+.tableauFormations .libelle{
 	width: 15%;
 }
 
-#tableauFormations .contenu{
+.tableauFormations .contenu{
 	width: 25%;
 }
 
-#tableauFormations .date{
+.tableauFormations .date{
 	width: 10%;
 }
 
-#tableauFormations .lieu{
+.tableauFormations .lieu{
 	width: 8%;
 }
 
-#tableauFormations .prerequis{
+.tableauFormations .prerequis{
 	width: 15%;
 }
 
-#tableauFormations .prestataire{
+.tableauFormations .prestataire{
 	width: 10%;
 }
 
-#tableauFormations .credits{
+.tableauFormations .credits{
 	width: 7%;
 }
