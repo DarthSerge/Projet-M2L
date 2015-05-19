@@ -43,10 +43,11 @@ function debutPage($titre) {
 
 		echo "<header>\n";
 			echo "<ul>\n";
+				echo "<li class=\"nav\"><img src=\"images/logoM2L.png\" title=\"logo\" alt=\"Logo de la M2L\" \></li>\n";
 				echo "<li class=\"nav\"><a href=\"compte.php\">Mon compte</a></li>\n";
 				echo "<li class=\"nav\"><a href=\"mailto:jeanfrancois.poivey@free.fr\">Contactez-nous</a></li>\n";
 				echo "<li class=\"nav\"><a href=\"formations.php\">Les formations</a></li>\n";
-				echo "<li class=\"nav\"><a href=\"\" id=\"deconnexion\">Se déconnecter</a></li>\n";
+				echo "<li class=\"nav\"><a href=\"?deconnexion\" id=\"deconnexion\">Se déconnecter</a></li>\n";
 			echo "</ul>\n";
 		echo "</header>\n";
 	}
@@ -56,17 +57,8 @@ function debutPage($titre) {
 function aside($id) {
 	if ($id != 0) {
 		echo "<aside>\n";
-			echo "<table border=\"1\">\n";
-				echo "<tr>\n";
-					echo "<td>Login</td>\n";
-					echo "<td>".$_SESSION["login"]."</td>\n";
-				echo "</tr>\n";
-				
-				echo "<tr>\n";
-					echo "<td>Mail</td>\n";
-					echo "<td>".$_SESSION["mail"]."</td>\n";
-				echo "</tr>\n";
-			echo "</table>\n";
+			echo "<div id=\"login\">Login : ".$_SESSION["login"]."</div>";
+			echo "<div id=\"mail\">Mail : ".$_SESSION["mail"]."</div>";
 		echo "</aside>\n";
 	}
 

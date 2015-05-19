@@ -9,6 +9,7 @@ html {
 body {
 	width: 100%;
 	margin: auto;
+	margin-top: 5px;
 }
 
 div#msgErreur {
@@ -132,6 +133,39 @@ a {
 	font-size: 11px;
 	font-weight: bold;
 }
+
+/* Bandeau de navigation */
+
+header ul {
+	width: 90%;
+	margin: auto;
+}
+
+li.nav a {
+	font-size: 20px;
+	color: #2bcebb;
+}
+
+li.nav {
+	display: inline-block;
+	margin: 20px;
+	width: 150px;
+	border-radius: 5px;
+	text-align: center;
+}
+
+aside div {
+	color: #666666;
+	font-style: italic;
+	display: inline;
+	margin-right: 30px;
+}
+
+aside div#login {
+	margin-left: 500px;
+}
+
+/* Tableau de formations */
 
 .tableauFormations {
 	margin: auto;
