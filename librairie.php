@@ -46,7 +46,7 @@ function debutPage($titre) {
 				echo "<li class=\"nav\"><a href=\"compte.php\">Mon compte</a></li>\n";
 				echo "<li class=\"nav\"><a href=\"mailto:jeanfrancois.poivey@free.fr\">Contactez-nous</a></li>\n";
 				echo "<li class=\"nav\"><a href=\"formations.php\">Les formations</a></li>\n";
-				echo "<li class=\"nav\"><a href=\"".getFichier()."?deconnexion\" id=\"deconnexion\">Se déconnecter</a></li>\n";
+				echo "<li class=\"nav\"><a href=\"\" id=\"deconnexion\">Se déconnecter</a></li>\n";
 			echo "</ul>\n";
 		echo "</header>\n";
 	}
@@ -77,11 +77,6 @@ function finPage() {
 			echo "</article>\n";
 		echo "</section>\n";
 
-	if (getFichier() != "identification.php") {
-			echo "<footer>\n";
-				echo "<a href=\"mentions-legales.php\">Mentions Légales</a>\n";
-			echo "</footer>\n";
-	}
 	echo "</body>\n";
 
 	echo "</html>\n";

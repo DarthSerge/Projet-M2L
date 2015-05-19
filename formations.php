@@ -27,7 +27,6 @@ echo "\nDemandées = ";
 foreach ($user->getListeDemandees() as $item)
 	echo $item." ";
 
-
 echo "<table id=\"tableauFormations\">\n";
 
 /* Liste des formations */
