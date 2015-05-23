@@ -7,33 +7,13 @@ aside($_SESSION["id"]);
 
 $user = new User($_SESSION["id"], $_SESSION["login"], $_SESSION["mail"]);
 
-echo "\nAnnulées = ";
-foreach ($user->getListeAnnulees() as $item)
-	echo $item." ";
-
-echo "\nEn Cours = ";
-foreach ($user->getListeEnCours() as $item)
-	echo $item." ";
-
-echo "\nTerminees = ";
-foreach ($user->getListeTerminees() as $item)
-	echo $item." ";
-
-echo "\nAcceptées = ";
-foreach ($user->getListeAcceptees() as $item)
-	echo $item." ";
-
-echo "\nDemandées = ";
-foreach ($user->getListeDemandees() as $item)
-	echo $item." ";
-
 echo "<table id=\"tableauFormations\">\n";
 
-/* Liste des formations */
+/* Liste des formations disponibles */
 
-ligneLabelFormations("Liste des formations");
+ligneLabelFormations("Liste des formations a venir");
 
-listeTableauFormations($user->getAllFormations());
+listeTableauFormations($user->getFormationsDispo());
 
 echo "</table>\n";
 

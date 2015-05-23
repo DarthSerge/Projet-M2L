@@ -78,6 +78,38 @@ Class DB_User extends DB {
 		$dbh->commit();
 		return true;
 	}
+
+	function getFormationsFutures(){
+
+		$listeFormationsDispo = array();
+
+		//connection a la base
+		$dbh = $this->connect();
+		$sql = "SELECT form_id,form_libelle, form_contenu, form_date_debut, form_date_fin, form_lieu, form_cout_credit,prest_id,form_prerequis FROM formation WHERE form_date_debut >= DATE_ADD(CURDATE(),INTERVAL 1 day)";
+
+		//on envoie la requête et on bind les arguments
+		$stmt = $dbh->prepare($sql);
+		
+		if ($stmt->execute()){
+			while($data = $stmt->fetch(PDO::FETCH_ASSOC)){
+				$formation = new Formation($data["form_id"],
+					  					   $data["form_libelle"],
+										   $data["form_contenu"],
+										   $data["form_date_debut"],
+										   $data["form_date_fin"],
+										   $data["form_lieu"],
+										   $data["form_prerequis"],
+										   $data["form_cout_credit"],
+										   $data["prest_id"]);
+				$listeFormationsDispo[] = $formation;
+			}
+
+		}else{
+			echo("Erreur lors de la lecture des données");
+			return false;
+		}
+		return $listeFormationsDispo;
+	}
 }
 
 ?>

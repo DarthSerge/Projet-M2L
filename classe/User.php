@@ -121,6 +121,12 @@ Class User {
 		return $data->getFormationUser($this->id, "terminee");
 	}
 
+	function getFormationsFutures(){
+		$data = new DB_USer();
+
+		return $data->getFormationsFutures();
+	}
+
 	//modifie les formations d'un utilisateur
 	//renvoi vrai ou faux selon la bonne execution de la requete
 	function updateFormationUser(){
