@@ -100,26 +100,30 @@ function ligneChamps() {
 }
 
 function listeTableauFormations($tableau) {
-		if (count($tableau) == 0)
-			ligueAucuneFormation("Aucune formation");
+	if (count($tableau) == 0)
+		ligueAucuneFormation("Aucune formation");
 
-		else {
-			ligneChamps();
+	else {
+		ligneChamps();
 
-			foreach ($tableau as $formation) {
-				$prestataire = $formation->getPrestataire();
+		foreach ($tableau as $formation) {
+			$prestataire = $formation->getPrestataire();
+
+			if (getFichier() == "formations.php") {
+				echo "<tr class=\"insuffisant\">\n";
+			} else
 				echo "<tr>\n";
-					echo "<td class=\"libelle\">".$formation->getLibelle()."</td>\n";
-					echo "<td class=\"contenu\">".$formation->getContenu()."</td>\n";
-					echo "<td class=\"date\">".$formation->getDateDebut()."</td>\n";
-					echo "<td class=\"date\">".$formation->getDateFin()."</td>\n";
-					echo "<td class=\"lieu\">".$formation->getLieu()."</td>\n";
-					echo "<td class=\"prerequis\">".$formation->getRequis()."</td>\n";
-					echo "<td class=\"prestataire\">".$prestataire->getRaisonSociale()."</td>\n";
-					echo "<td class=\"credits\">".$formation->getCredits()."</td>\n";
-				echo "</tr>\n";
-			}
+				echo "<td class=\"libelle\">".$formation->getLibelle()."</td>\n";
+				echo "<td class=\"contenu\">".$formation->getContenu()."</td>\n";
+				echo "<td class=\"date\">".$formation->getDateDebut()."</td>\n";
+				echo "<td class=\"date\">".$formation->getDateFin()."</td>\n";
+				echo "<td class=\"lieu\">".$formation->getLieu()."</td>\n";
+				echo "<td class=\"prerequis\">".$formation->getRequis()."</td>\n";
+				echo "<td class=\"prestataire\">".$prestataire->getRaisonSociale()."</td>\n";
+				echo "<td class=\"credits\">".$formation->getCredits()."</td>\n";
+			echo "</tr>\n";
 		}
+	}
 }
 
 function tabFormations($label, $tableau) {

@@ -176,39 +176,80 @@ aside div#login {
 	text-align: center;
 }
 
-.tableauFormations th, .tableauFormations td {
+.tableauFormationsFutures {
+	margin: auto;
+	margin-top: 30px;
+	width: 95%;
+	border-collapse: collapse;
+	background-color: #ebf4fb;
+	text-align: center;
+}
+
+table th, table td {
 	border: 1px solid #aacfe4;
 }
 
-.tableauFormations .typeFormations {
+table .typeFormations {
 	font-size: 1.2em;
 	margin-bottom: 50px;
 }
 
-.tableauFormations .libelle{
+table tr.acceptee {
+	background-color: #75ca78;
+}
+
+table tr.acceptee th, table tr.acceptee td {
+	border: 1px solid #75ca78;
+}
+
+table tr.refusee {
+	background-color: #e25c5c;
+}
+
+table tr.refusee th, table tr.refusee td {
+	border: 1px solid #e25c5c;
+}
+
+table tr.demandee {
+	background-color: #bc63a1;
+}
+
+table tr.demandee th, table tr.demandee td {
+	border: 1px solid #bc63a1;
+}
+
+table tr.insuffisant {
+	background-color: #dc954e;
+}
+
+table tr.insuffisant th, table tr.insuffisant td {
+	border: 1px solid #dc954e;
+}
+
+table .libelle {
 	width: 15%;
 }
 
-.tableauFormations .contenu{
+table .contenu {
 	width: 25%;
 }
 
-.tableauFormations .date{
+table .date {
 	width: 10%;
 }
 
-.tableauFormations .lieu{
+table .lieu {
 	width: 8%;
 }
 
-.tableauFormations .prerequis{
+table .prerequis {
 	width: 15%;
 }
 
-.tableauFormations .prestataire{
+table .prestataire {
 	width: 10%;
 }
 
-.tableauFormations .credits{
+table .credits {
 	width: 7%;
 }
