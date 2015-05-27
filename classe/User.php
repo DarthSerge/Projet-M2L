@@ -36,13 +36,13 @@ Class User {
 
 		else {
 
-			$credits = $this->getCredits($retour["user_id"]);
+			//$credits = $this->getCredits($retour["user_id"]);
 
 			$utilisateur =  array(
 				"id" => $retour["user_id"],
 				"login" => $retour["user_login"],
-				"mail" => $retour["user_mail"],
-				"credits" => $credits
+				"mail" => $retour["user_mail"]
+				//"credits" => $credits
 				);
 
 			return $utilisateur;
