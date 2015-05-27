@@ -176,15 +176,6 @@ aside div#login {
 	text-align: center;
 }
 
-.tableauFormationsFutures {
-	margin: auto;
-	margin-top: 30px;
-	width: 95%;
-	border-collapse: collapse;
-	background-color: #ebf4fb;
-	text-align: center;
-}
-
 table th, table td {
 	border: 1px solid #aacfe4;
 }

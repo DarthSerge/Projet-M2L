@@ -21,8 +21,6 @@ Class User {
 		$this->login = $login;
 		$this->mail = $mail;
 		$this->credits = $credits;
-
-		echo("bite".$this->credits);
 	}
 
 	//Vérification des identifiants de connexion
