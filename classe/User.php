@@ -13,12 +13,16 @@ Class User {
 	private $admin;
 	private $mail;
 	private $ListeFormation = array();
+	private $credits;
 
 	/* Constructeur */
-	function __construct($id, $login, $mail) {
+	function __construct($id, $login, $mail,$credits) {
 		$this->id = $id;
 		$this->login = $login;
 		$this->mail = $mail;
+		$this->credits = $credits;
+
+		echo("bite".$this->credits);
 	}
 
 	//Vérification des identifiants de connexion
@@ -31,10 +35,14 @@ Class User {
 			return false;
 
 		else {
+
+			$credits = $this->getCredits($retour["user_id"]);
+
 			$utilisateur =  array(
 				"id" => $retour["user_id"],
 				"login" => $retour["user_login"],
-				"mail" => $retour["user_mail"]
+				"mail" => $retour["user_mail"],
+				"credits" => $credits
 				);
 
 			return $utilisateur;
@@ -124,7 +132,7 @@ Class User {
 	function getFormationsFutures(){
 		$data = new DB_USer();
 
-		return $data->getFormationsFutures();
+		return $data->getFormationsFutures($this->id);
 	}
 
 	//modifie les formations d'un utilisateur
@@ -133,6 +141,12 @@ Class User {
 		$data = new DB_User();
 
 		return $data->updateFormationUser($this->id);
+	}
+
+	function getCredits($id){
+		$data = new DB_User();
+
+		return $data->getCreditsUser($id);
 	}
 }
 

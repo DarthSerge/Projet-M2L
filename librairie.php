@@ -59,6 +59,7 @@ function aside($id) {
 		echo "<aside>\n";
 			echo "<div id=\"login\">Login : ".$_SESSION["login"]."</div>";
 			echo "<div id=\"mail\">Mail : ".$_SESSION["mail"]."</div>";
+			echo "<div id=\"mail\">Crédits : ".$_SESSION["credits"]."</div>";
 		echo "</aside>\n";
 	}
 
