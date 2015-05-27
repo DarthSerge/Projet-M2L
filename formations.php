@@ -13,7 +13,7 @@ echo "<table id=\"tableauFormations\">\n";
 
 ligneLabelFormations("Liste des formations a venir");
 
-listeTableauFormations($user->getFormationsDispo());
+listeTableauFormations($user->getFormationsFutures($user->getId()));
 
 echo "</table>\n";
 
