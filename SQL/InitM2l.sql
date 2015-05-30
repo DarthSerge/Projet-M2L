@@ -80,42 +80,6 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Structure de la table `formation`
---
-
-CREATE TABLE IF NOT EXISTS `formation` (
-  `form_id` int(11) NOT NULL AUTO_INCREMENT,
-  `form_libelle` varchar(100) NOT NULL,
-  `form_contenu` varchar(250) NOT NULL,
-  `form_date_debut` date NOT NULL,
-  `form_date_fin` date NOT NULL,
-  `form_lieu` varchar(25) NOT NULL,
-  `form_prerequis` varchar(25) NOT NULL,
-  `form_cout_credit` int(11) NOT NULL,
-  `prest_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`form_id`),
-  KEY `FK_formation_prest_id` (`prest_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
-
---
--- Vider la table avant d'insérer `formation`
---
-
-TRUNCATE TABLE `formation`;
---
--- Contenu de la table `formation`
---
-
-INSERT INTO `formation` (`form_id`, `form_libelle`, `form_contenu`, `form_date_debut`, `form_date_fin`, `form_lieu`, `form_prerequis`, `form_cout_credit`, `prest_id`) VALUES
-(1, 'Ninja 101', 'contenu ninja', '2015-04-29', '2015-04-14', 'Tijuana', 'Que nenni', 150, 1),
-(2, 'Formation nulle', 'contenu nul', '2015-04-22', '2015-04-24', 'Loin', 'Rien', 325, 1),
-(3, 'Formation pourrie', 'contenu pourri', '2015-04-23', '2015-04-15', 'Loin', 'Rien', 124, 1),
-(4, 'Formation inutile', 'contenu inutile', '2015-04-25', '2015-04-28', 'Loin', 'Rien', 1, 1),
-(5, 'Formation kikoo', 'contenu kikoo', '2015-04-26', '2015-04-30', 'N''importe où', 'Osef', 3782, 1);
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `parametres`
 --
 
@@ -141,32 +105,25 @@ INSERT INTO `parametres` (`param_libelle`, `param_valeur`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `participe`
+-- Structure de la table `user`
 --
 
-CREATE TABLE IF NOT EXISTS `participe` (
-  `form_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `part_statut` varchar(20) NOT NULL,
-  PRIMARY KEY (`form_id`,`user_id`),
-  KEY `FK_participe_user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `user` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_login` varchar(50) NOT NULL,
+  `user_mdp` varchar(75) NOT NULL,
+  `user_mail` varchar(250) NOT NULL,
+  `user_actif` tinyint(1) NOT NULL,
+  `user_admin` tinyint(1) NOT NULL,
+  PRIMARY KEY (`user_id`),
+  KEY `FK_user_user_id_1` (`user_admin`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Vider la table avant d'insérer `participe`
+-- Vider la table avant d'insérer `user`
 --
 
-TRUNCATE TABLE `participe`;
---
--- Contenu de la table `participe`
---
-
-INSERT INTO `participe` (`form_id`, `user_id`, `part_statut`) VALUES
-(1, 2, 'demandee'),
-(2, 2, 'annulee'),
-(3, 2, 'terminee'),
-(4, 2, 'encours'),
-(5, 2, 'terminee');
+TRUNCATE TABLE `user`;
 
 -- --------------------------------------------------------
 
@@ -188,42 +145,54 @@ CREATE TABLE IF NOT EXISTS `prestataire` (
 --
 
 TRUNCATE TABLE `prestataire`;
---
--- Contenu de la table `prestataire`
---
-
-INSERT INTO `prestataire` (`prest_id`, `prest_raison_sociale`, `prest_adresse`, `prest_telephone`, `prest_siret`) VALUES
-(1, 'KirikouIT', '69 rue du poulet, 78500, Sartrouville', '0892310001', 'dswxvbhnj523');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `user`
+-- Structure de la table `formation`
 --
 
-CREATE TABLE IF NOT EXISTS `user` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_login` varchar(50) NOT NULL,
-  `user_mdp` varchar(75) NOT NULL,
-  `user_mail` varchar(250) NOT NULL,
-  `user_actif` tinyint(1) NOT NULL,
-  `user_admin` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`user_id`),
-  KEY `FK_user_user_id_1` (`user_admin`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+CREATE TABLE IF NOT EXISTS `formation` (
+  `form_id` int(11) NOT NULL AUTO_INCREMENT,
+  `form_libelle` varchar(100) NOT NULL,
+  `form_contenu` varchar(250) NOT NULL,
+  `form_date_debut` date NOT NULL,
+  `form_date_fin` date NOT NULL,
+  `form_lieu` varchar(25) NOT NULL,
+  `form_prerequis` varchar(25) NOT NULL,
+  `form_cout_credit` int(11) NOT NULL,
+  `prest_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`form_id`),
+  KEY `FK_formation_prest_id` (`prest_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
--- Vider la table avant d'insérer `user`
+-- Vider la table avant d'insérer `formation`
 --
 
-TRUNCATE TABLE `user`;
+TRUNCATE TABLE `formation`;
+
+-- --------------------------------------------------------
+
 --
--- Contenu de la table `user`
+-- Structure de la table `participe`
 --
 
-INSERT INTO `user` (`user_id`, `user_login`, `user_mdp`, `user_mail`, `user_actif`, `user_admin`) VALUES
-(1, 'serge', 'eb2b0f82d5d1235eb5d5b8524ac3956e', 'sergepopolov@yopmail.com', 1, NULL),
-(2, 'pipoulefifou', 'eb2b0f82d5d1235eb5d5b8524ac3956e', 'pipou@lefifou.com', 1, 1);
+CREATE TABLE IF NOT EXISTS `participe` (
+  `form_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `part_statut` varchar(20) NOT NULL,
+  PRIMARY KEY (`form_id`,`user_id`),
+  KEY `FK_participe_user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Vider la table avant d'insérer `participe`
+--
+
+TRUNCATE TABLE `participe`;
+
+-- --------------------------------------------------------
 
 --
 -- Contraintes pour les tables exportées
