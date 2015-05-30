@@ -21,7 +21,7 @@ Class DB_User extends DB {
 			$retour = $stmt->fetch(PDO::FETCH_ASSOC);
 
 			$retour["credits"] 	= $this->getCreditsUser($retour["id"]);
-			$retour["jours"] 	= $this->getJoursDispo($retour["id"]);
+			$retour["jours"] 	= $this->getJoursUser($retour["id"]);
 
 			if (count($retour) != 1) {
 				return $retour;
@@ -128,37 +128,63 @@ Class DB_User extends DB {
 			$res = $stmt->fetch(PDO::FETCH_ASSOC);
 
 			return $res["credit"];
-		}
-		else{
+		} else
 			return false;
-		}
 	}
 
-	function getJoursDispo($id){
+	function getJoursUser($id) {
+		$nbJours = 0;
+		$listeFormations = array();
 
-		//connexion 
-		$dbh = $this->connect();
-		$sql = "CALL getJours(:id);";
+		$dbh1 = $this->connect();
 
-		//on envoie la requête et on bind les arguments
-		$stmt = $dbh->prepare($sql);
-		$stmt->BindValue(':id',$id);
+		/* Récupération du nombre de jours initial */
 
-		print_r($stmt->errorCode());
+		$dbh1 = $this->connect();
+		$sql = "SELECT param_valeur FROM parametres WHERE param_libelle = 'jours'";
+		$stmt1 = $dbh1->prepare($sql);
 		
-		//renvoi 
-		if ($stmt->execute()){
+		if ($stmt1->execute()) {
+			while ($data1 = $stmt1->fetch(PDO::FETCH_ASSOC))
+				$nbTotal = $data1["param_valeur"];
+		} else
+			$nbTotal = 0;
 
-			$res = $stmt->fetch(PDO::FETCH_ASSOC);
+		/* Récupération des formations de l'utilisateurs (sauf celles qui ont été annulés) */
 
-			return $res["jours"];
+		$dbh2 = $this->connect();
+		$sql = "SELECT form_id FROM participe WHERE user_id = :id AND part_statut <> 'annulee';";
+		$stmt2 = $dbh2->prepare($sql);
+		$stmt2->BindValue(':id', $id);
+		
+		if ($stmt2->execute()) {
+			while ($data2 = $stmt2->fetch(PDO::FETCH_ASSOC))
+				$listeFormations[] = $data2["form_id"];
+		} else
+			$listeFormations = false;
+
+			$_SESSION["kiwi"] = $listeFormations;
+
+		/* Calcul du nombre de jours de ces formations combinées */
+
+		$dbh3 = $this->connect();
+		$sql = "CALL calculJours(:idFormation);";
+		$stmt3 = $dbh3->prepare($sql);
+
+		if ($listeFormations != false) {
+			foreach ($listeFormations as $formation) {
+				$stmt3->BindValue(':idFormation', $formation);
+
+				if ($stmt3->execute()){
+					$res = $stmt3->fetch(PDO::FETCH_ASSOC);
+					$nbJours += $res["jours"];
+				}
+			}
 		}
-		else{
-			return false;
-		}
+
+		return $nbTotal - $nbJours;
 	}
 
 }
-
 
 ?>

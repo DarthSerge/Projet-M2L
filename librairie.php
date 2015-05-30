@@ -57,10 +57,10 @@ function debutPage($titre) {
 function aside($id) {
 	if ($id != 0) {
 		echo "<aside>\n";
-			echo "<div id=\"login\">Login : ".$_SESSION["login"]."</div>";
-			echo "<div id=\"mail\">Mail : ".$_SESSION["mail"]."</div>";
-			echo "<div id=\"mail\">Crédits : ".$_SESSION["credits"]."</div>";
-			echo "<div id=\"mail\">Jours restant : ".$_SESSION["jours"]."</div>";
+			echo "<div><span>Login :</span> ".$_SESSION["login"]."</div>";
+			echo "<div><span>Mail :</span> ".$_SESSION["mail"]."</div>";
+			echo "<div><span>Crédits :</span> ".$_SESSION["credits"]."</div>";
+			echo "<div><span>Jours restant :</span> ".$_SESSION["jours"]."</div>";
 		echo "</aside>\n";
 	}
 
@@ -102,7 +102,7 @@ function ligneChamps() {
 }
 
 function verifIdFormation($idFormation) {
-	$employe = new User($_SESSION["id"], $_SESSION["login"], $_SESSION["mail"],$_SESSION["credits"],$_SESSION["jours"]);
+	$employe = new User($_SESSION["id"], $_SESSION["login"], $_SESSION["mail"],$_SESSION["credits"], $_SESSION["jours"]);
 
 	// Formation Demandée
 

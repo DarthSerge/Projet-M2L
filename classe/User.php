@@ -153,7 +153,13 @@ Class User {
 	function getCreditsUser($id){
 		$data = new DB_User();
 
-		return $data->getCreditsUser($id);
+		return $data->getCreditsUser($this->id);
+	}
+
+	function getJoursUser() {
+		$data = new DB_User();
+
+		return $data->getJoursUser($this->id);
 	}
 
 	function getFormationsAttente(){

@@ -155,15 +155,18 @@ li.nav {
 }
 
 aside {
-	width: 60%;
+	width: 50%;
 	margin: auto;
 }
 
 aside div {
 	color: #666666;
-	font-style: italic;
 	display: inline;
 	margin-right: 50px;
+}
+
+aside div span {
+	font-style: italic;
 }
 
 /* Tableau de formations */
