@@ -142,6 +142,42 @@ Class DB_Formation extends DB {
 		}
 		return $listeFormations;
 	}
+
+	
+	function getFormationsAttente(){
+
+		$listeFormationsAttente = array();
+
+		//connection a la base
+		$dbh = $this->connect();
+
+		$sql = "SELECT form_id, form_libelle,form_contenu,form_date_debut,form_date_fin,form_lieu,form_prerequis,prest_id,form_cout_credit FROM formation WHERE form_id IN (SELECT form_id FROM participe WHERE part_statut = 'demandee')";
+
+		//on envoie la requête et on bind les arguments
+		$stmt = $dbh->prepare($sql);
+
+		if ($stmt->execute())
+			while($data = $stmt->fetch(PDO::FETCH_ASSOC)){
+				$formation = new Formation($data["form_id"],
+					  					   $data["form_libelle"],
+										   $data["form_contenu"],
+										   $data["form_date_debut"],
+										   $data["form_date_fin"],
+										   $data["form_lieu"],
+										   $data["form_prerequis"],
+										   $data["form_cout_credit"],
+										   $data["prest_id"]);
+				$listeFormationsAttente[] = $formation;
+			}
+
+		 else {
+			echo("Erreur lors de la lecture des données");
+			return false;
+		}
+		return $listeFormationsAttente;
+
+
+	}
 }
 
 ?>

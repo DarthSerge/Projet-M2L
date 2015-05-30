@@ -20,7 +20,8 @@ Class DB_User extends DB {
 		if ($stmt->execute()) {
 			$retour = $stmt->fetch(PDO::FETCH_ASSOC);
 
-			$_SESSION["tab"] = count($retour);
+			$retour["credits"] 	= $this->getCreditsUser($retour["id"]);
+			$retour["jours"] 	= $this->getJoursDispo($retour["id"]);
 
 			if (count($retour) != 1) {
 				return $retour;
@@ -113,14 +114,48 @@ Class DB_User extends DB {
 	}
 
 	function getCreditsUser($id){
-
-		//connection a la base
+	//connexion 
 		$dbh = $this->connect();
-		$sql = "SET @id = ".$id."; SELECT getCredits(@id) AS credits;";
+		$sql = "CALL getCredits(:id);";
 
-		$res = $dbh->query($sql);
+		//on envoie la requête et on bind les arguments
+		$stmt = $dbh->prepare($sql);
+		$stmt->BindValue(':id',$id);
+		
+		//renvoi 
+		if ($stmt->execute()){
 
-		return $res['credits'];
+			$res = $stmt->fetch(PDO::FETCH_ASSOC);
+
+			return $res["credit"];
+		}
+		else{
+			return false;
+		}
+	}
+
+	function getJoursDispo($id){
+
+		//connexion 
+		$dbh = $this->connect();
+		$sql = "CALL getJours(:id);";
+
+		//on envoie la requête et on bind les arguments
+		$stmt = $dbh->prepare($sql);
+		$stmt->BindValue(':id',$id);
+
+		print_r($stmt->errorCode());
+		
+		//renvoi 
+		if ($stmt->execute()){
+
+			$res = $stmt->fetch(PDO::FETCH_ASSOC);
+
+			return $res["jours"];
+		}
+		else{
+			return false;
+		}
 	}
 
 }

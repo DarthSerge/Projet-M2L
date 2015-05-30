@@ -14,12 +14,15 @@ Class User {
 	private $mail;
 	private $ListeFormation = array();
 	private $credits;
+	private $jours;
 
 	/* Constructeur */
-	function __construct($id, $login, $mail) {
+	function __construct($id, $login, $mail,$credits,$jours) {
 		$this->id = $id;
 		$this->login = $login;
 		$this->mail = $mail;
+		$this->credits = $credits;
+		$this->jours = $jours;
 	}
 
 	//Vérification des identifiants de connexion
@@ -33,13 +36,12 @@ Class User {
 
 		else {
 
-			//$credits = $this->getCredits($retour["user_id"]);
-
 			$utilisateur =  array(
 				"id" => $retour["user_id"],
 				"login" => $retour["user_login"],
-				"mail" => $retour["user_mail"]
-				//"credits" => $credits
+				"mail" => $retour["user_mail"],
+				"credits" => $retour["credits"],
+				"jours" => $retour["jours"]
 				);
 
 			return $utilisateur;
@@ -57,6 +59,14 @@ Class User {
 
 	function getMail() {
 		return $this->mail;
+	}
+
+	function getCredits() {
+		return $this->credits;
+	}
+
+	function getJours() {
+		return $this->jours;
 	}
 
 	//renvoi un tableau d'objet formation contenant toutes les formations
@@ -140,10 +150,16 @@ Class User {
 		return $data->updateFormationUser($this->id);
 	}
 
-	function getCredits($id){
+	function getCreditsUser($id){
 		$data = new DB_User();
 
 		return $data->getCreditsUser($id);
+	}
+
+	function getFormationsAttente(){
+		$data = new DB_Formation();
+
+		return $data->getFormationsAttente();
 	}
 }
 

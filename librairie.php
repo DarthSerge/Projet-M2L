@@ -59,6 +59,8 @@ function aside($id) {
 		echo "<aside>\n";
 			echo "<div id=\"login\">Login : ".$_SESSION["login"]."</div>";
 			echo "<div id=\"mail\">Mail : ".$_SESSION["mail"]."</div>";
+			echo "<div id=\"mail\">Crédits : ".$_SESSION["credits"]."</div>";
+			echo "<div id=\"mail\">Jours restant : ".$_SESSION["jours"]."</div>";
 		echo "</aside>\n";
 	}
 
@@ -100,7 +102,7 @@ function ligneChamps() {
 }
 
 function verifIdFormation($idFormation) {
-	$employe = new User($_SESSION["id"], $_SESSION["login"], $_SESSION["mail"]);
+	$employe = new User($_SESSION["id"], $_SESSION["login"], $_SESSION["mail"],$_SESSION["credits"],$_SESSION["jours"]);
 
 	// Formation Demandée
 
@@ -180,6 +182,16 @@ function listeTableauFormations($tableau) {
 }
 
 function tabFormations($label, $tableau) {
+	echo "<table class=\"tableauFormations\">\n";
+
+	ligneLabelFormations($label);
+
+	listeTableauFormations($tableau);
+
+	echo "</table>\n";
+}
+
+function tabFormationsAttente($label, $tableau) {
 	echo "<table class=\"tableauFormations\">\n";
 
 	ligneLabelFormations($label);
