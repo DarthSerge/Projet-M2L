@@ -85,7 +85,7 @@ Class DB_User extends DB {
 
 		//connection a la base
 		$dbh = $this->connect();
-		$sql = "SELECT form_id,form_libelle, form_contenu, form_date_debut, form_date_fin, form_lieu, form_cout_credit,prest_id,form_prerequis FROM formation WHERE form_date_debut >= DATE_ADD(CURDATE(),INTERVAL 1 day) AND form_id NOT IN (SELECT form_id FROM participe WHERE user_id = :id )";
+		$sql = "SELECT form_id,form_libelle, form_contenu, form_date_debut, form_date_fin, form_lieu, form_cout_credit,prest_id,form_prerequis FROM formation WHERE form_date_debut >= DATE_ADD(CURDATE(),INTERVAL 1 day)";
 
 		//on envoie la requête et on bind les arguments
 		$stmt = $dbh->prepare($sql);

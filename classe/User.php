@@ -16,11 +16,10 @@ Class User {
 	private $credits;
 
 	/* Constructeur */
-	function __construct($id, $login, $mail,$credits) {
+	function __construct($id, $login, $mail) {
 		$this->id = $id;
 		$this->login = $login;
 		$this->mail = $mail;
-		$this->credits = $credits;
 	}
 
 	//Vérification des identifiants de connexion
@@ -128,7 +127,7 @@ Class User {
 	}
 
 	function getFormationsFutures(){
-		$data = new DB_USer();
+		$data = new DB_User();
 
 		return $data->getFormationsFutures($this->id);
 	}

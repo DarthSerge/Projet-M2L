@@ -59,7 +59,6 @@ function aside($id) {
 		echo "<aside>\n";
 			echo "<div id=\"login\">Login : ".$_SESSION["login"]."</div>";
 			echo "<div id=\"mail\">Mail : ".$_SESSION["mail"]."</div>";
-			echo "<div id=\"mail\">Crédits : ".$_SESSION["credits"]."</div>";
 		echo "</aside>\n";
 	}
 
@@ -100,6 +99,47 @@ function ligneChamps() {
 	echo "</tr>\n";
 }
 
+function verifIdFormation($idFormation) {
+	$employe = new User($_SESSION["id"], $_SESSION["login"], $_SESSION["mail"]);
+
+	// Formation Demandée
+
+	$tab = $employe->getFormationsDemandees();
+	$tabDemandees = array();
+
+	foreach ($tab as $formation)
+		$tabDemandees[] = $formation->getId();
+
+	if (in_array($idFormation, $tabDemandees))
+		return "demandee";
+	
+	/* Formation Acceptée */
+
+	$tab = $employe->getFormationsAcceptees();
+	$tabAcceptees = array();
+
+	foreach ($tab as $formation)
+		$tabAcceptees[] = $formation->getId();
+
+	if (in_array($idFormation, $tabAcceptees))
+		return "acceptee";
+
+	/* Formation Refusée */
+
+	$tab = $employe->getFormationsAnnulees();
+	$tabRefusees = array();
+
+	foreach ($tab as $formation)
+		$tabRefusees[] = $formation->getId();
+
+	if (in_array($idFormation, $tabRefusees))
+		return "refusee";
+
+	/* Formation basique */
+
+	return "basique";
+}
+
 function listeTableauFormations($tableau) {
 	if (count($tableau) == 0)
 		ligueAucuneFormation("Aucune formation");
@@ -109,11 +149,20 @@ function listeTableauFormations($tableau) {
 
 		foreach ($tableau as $formation) {
 			$prestataire = $formation->getPrestataire();
+			$id = $formation->getId();
+			$categorie = verifIdFormation($id);
 
-			if (getFichier() == "formations.php") {
-				echo "<tr class=\"insuffisant\">\n";
-			} else
-				echo "<tr>\n";
+			if ($categorie == "basique")
+				$kiwi = 21;
+
+			echo "<tr id=\"".$id."\" title=\"".$formation->getLibelle()."\"";
+
+			if (getFichier() == "formations.php")
+				echo " class=\"".$categorie."\">\n";
+			
+			else
+				echo ">\n";
+
 				echo "<td class=\"libelle\">".$formation->getLibelle()."</td>\n";
 				echo "<td class=\"contenu\">".$formation->getContenu()."</td>\n";
 				echo "<td class=\"date\">".$formation->getDateDebut()."</td>\n";
@@ -123,6 +172,9 @@ function listeTableauFormations($tableau) {
 				echo "<td class=\"prestataire\">".$prestataire->getRaisonSociale()."</td>\n";
 				echo "<td class=\"credits\">".$formation->getCredits()."</td>\n";
 			echo "</tr>\n";
+
+			if ($categorie == "basique" || $categorie == "acceptee" || $categorie == "demandee")
+				echo "</a>";
 		}
 	}
 }

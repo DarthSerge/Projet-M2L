@@ -217,6 +217,10 @@ table tr.insuffisant th, table tr.insuffisant td {
 	border: 1px solid #dc954e;
 }
 
+table .id {
+	display: none;
+}
+
 table .libelle {
 	width: 15%;
 }

@@ -5,7 +5,7 @@ include_once "./librairie.php";
 debutPage("Mon Compte");
 aside($_SESSION["id"]);
 
-$user = new User($_SESSION["id"], $_SESSION["login"], $_SESSION["mail"], $_SESSION["credits"]);
+$user = new User($_SESSION["id"], $_SESSION["login"], $_SESSION["mail"]);
 
 echo "<table class=\"tableauFormations\">\n";
 
