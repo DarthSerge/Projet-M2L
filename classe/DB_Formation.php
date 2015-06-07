@@ -146,7 +146,7 @@ Class DB_Formation extends DB {
 	
 	function getDemandes(){
 
-		$listeFormationsAttente = array();
+		$listeDemande = array();
 
 		//connection a la base
 		$dbh = $this->connect();
@@ -167,7 +167,7 @@ Class DB_Formation extends DB {
 										   $data["form_prerequis"],
 										   $data["form_cout_credit"],
 										   $data["prest_id"]);
-				$listeFormationsAttente[] = $formation;
+				$listeDemande[] = $formation;
 			}
 
 		 else {
@@ -175,7 +175,7 @@ Class DB_Formation extends DB {
 			return false;
 		}
 
-		return $listeFormationsAttente;
+		return $listeDemande;
 	}
 
 	function getNbJours($id) {
