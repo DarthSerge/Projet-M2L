@@ -44,7 +44,6 @@ elseif (isset($_POST["login"]) && isset($_POST["mdp"])) {
 			$_SESSION["mail"] = $test["mail"];
 			$_SESSION["credits"] = $test["credits"];
 			$_SESSION["jours"] = $test["jours"];
-			$_SESSION["admin"] = $test["admin"];
 			redirect("compte.php");
 		}
 	}

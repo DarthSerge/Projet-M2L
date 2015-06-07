@@ -102,7 +102,7 @@ function ligneChamps() {
 }
 
 function verifIdFormation($idFormation) {
-	$employe = new User($_SESSION["id"], $_SESSION["login"], $_SESSION["mail"],$_SESSION["credits"], $_SESSION["jours"],$_SESSION["admin"]);
+	$employe = new User($_SESSION["id"], $_SESSION["login"], $_SESSION["mail"],$_SESSION["credits"], $_SESSION["jours"]);
 
 	// Formation Demandée
 

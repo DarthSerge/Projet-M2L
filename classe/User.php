@@ -17,13 +17,12 @@ Class User {
 	private $jours;
 
 	/* Constructeur */
-	function __construct($id, $login, $mail,$credits,$jours,$admin) {
+	function __construct($id, $login, $mail,$credits,$jours) {
 		$this->id = $id;
 		$this->login = $login;
 		$this->mail = $mail;
 		$this->credits = $credits;
 		$this->jours = $jours;
-		$this->admin = $admin;
 	}
 
 	//Vérification des identifiants de connexion
@@ -42,8 +41,7 @@ Class User {
 				"login" => $retour["user_login"],
 				"mail" => $retour["user_mail"],
 				"credits" => $retour["credits"],
-				"jours" => $retour["jours"],
-				"admin" => $retour["user_admin"]
+				"jours" => $retour["jours"]
 				);
 
 			return $utilisateur;

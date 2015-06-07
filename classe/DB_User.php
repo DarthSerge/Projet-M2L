@@ -9,7 +9,7 @@ Class DB_User extends DB {
 
 		//connection a la base
 		$dbh = $this->connect();
-		$sql = "SELECT user_id, user_admin, user_login, user_mail,user_admin FROM user WHERE user_login = :login AND user_mdp = :mdp AND user_actif = 1;";
+		$sql = "SELECT user_id, user_admin, user_login, user_mail FROM user WHERE user_login = :login AND user_mdp = :mdp AND user_actif = 1;";
 
 		//on envoie la requête et on bind les arguments
 		$stmt = $dbh->prepare($sql);
@@ -159,10 +159,10 @@ Class DB_User extends DB {
 	function inscription($formationId, $userId) {
 		$dbh = $this->connect();
 
-		if ($_SESSION["admin"])
-			$statut = "acceptee";
-		else
-			$statut = "demandee";
+		// if (ADMIN)
+		// 	$statut = "acceptee";
+		// else
+		$statut = "demandee";
 
 		$sql = "INSERT INTO participe VALUES(:formationId, :userId, '".$statut."');";
 
