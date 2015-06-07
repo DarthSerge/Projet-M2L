@@ -107,7 +107,7 @@ Class DB_Formation extends DB {
 		return $listeFormations;
 	}
 
-	//renvoi la liste des formations suivi parl'utilisateur spécifié
+	//renvoi la liste des formations suivi par l'utilisateur spécifié
 	function getFormationUser($userId, $statut){
 
 		$listeFormations = array();

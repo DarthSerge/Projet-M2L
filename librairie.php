@@ -174,9 +174,6 @@ function listeTableauFormations($tableau) {
 				echo "<td class=\"prestataire\">".$prestataire->getRaisonSociale()."</td>\n";
 				echo "<td class=\"credits\">".$formation->getCredits()."</td>\n";
 			echo "</tr>\n";
-
-			if ($categorie == "basique" || $categorie == "acceptee" || $categorie == "demandee")
-				echo "</a>";
 		}
 	}
 }
