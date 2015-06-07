@@ -5,7 +5,7 @@ include_once "./librairie.php";
 debutPage("Mon Compte");
 aside($_SESSION["id"]);
 
-$user = new User($_SESSION["id"], $_SESSION["login"], $_SESSION["mail"],$_SESSION["credits"],$_SESSION["jours"]);
+$user = new User($_SESSION["id"], $_SESSION["login"], $_SESSION["mail"],$_SESSION["credits"],$_SESSION["jours"],$_SESSION["admin"]);
 
 /* Formations en cours */
 
