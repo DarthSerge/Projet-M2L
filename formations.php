@@ -4,7 +4,7 @@ include_once "./librairie.php";
 
 debutPage("Liste des formations");
 
-$user = new User($_SESSION["id"], $_SESSION["login"], $_SESSION["mail"], $_SESSION["credits"],$_SESSION["jours"]);
+$user = new User($_SESSION["id"], $_SESSION["login"], $_SESSION["mail"], $_SESSION["credits"],$_SESSION["jours"], $_SESSION["admin"]);
 
 /* Action sur les formations */
 
