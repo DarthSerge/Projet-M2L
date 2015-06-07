@@ -174,9 +174,27 @@ Class DB_Formation extends DB {
 			echo("Erreur lors de la lecture des données");
 			return false;
 		}
+
 		return $listeFormationsAttente;
+	}
 
+	function getNbJours($id) {
+		//connexion 
+		$dbh = $this->connect();
+		$sql = "CALL calculJours(:id);";
 
+		//on envoie la requête et on bind les arguments
+		$stmt = $dbh->prepare($sql);
+		$stmt->BindValue(':id',$id);
+		
+		//renvoi 
+		if ($stmt->execute()){
+
+			$res = $stmt->fetch(PDO::FETCH_ASSOC);
+
+			return $res["jours"];
+		} else
+			return false;
 	}
 }
 

@@ -183,6 +183,47 @@ Class DB_User extends DB {
 		return $nbTotal - $nbJours;
 	}
 
+	function inscription($userId, $formationId) {
+		$dbh = $this->connect();
+
+		// if (ADMIN)
+		// 	$statut = "acceptee";
+		// else
+		// 	$statut = "demandee";
+
+		$sql = "INSERT INTO participe VALUES(:userId, :formationId, '".$statut."');"
+
+		$stmt = $dbh->prepare($sql);
+		$stmt->BindValue(':userId',$userId);
+		$stmt->BindValue(':formationId',$formationId);
+
+		return $stmt->execute();
+	}
+
+	function desinscription($userId, $formationId) {
+		$dbh = $this->connect();
+		
+		$sql = "DELETE FROM participe WHERE user_id = :userId AND form_id = :formationId;"
+
+		$stmt = $dbh->prepare($sql);
+		$stmt->BindValue(':userId',$userId);
+		$stmt->BindValue(':formationId',$formationId);
+
+		return $stmt->execute();
+	}
+
+	function changeFormation($userId, $formationId, $statut) {
+		$dbh = $this->connect();
+		$sql = "UPDATE participe SET part_statut = :statut WHERE form_id = :formationId AND user_id = :userId;"
+
+		$stmt = $dbh->prepare($sql);
+		$stmt->BindValue(':userId',$userId);
+		$stmt->BindValue(':formationId',$formationId);
+		$stmt->BindValue(':statut',$statut);
+
+		return $stmt->execute();
+	}
+
 }
 
 ?>

@@ -142,14 +142,6 @@ Class User {
 		return $data->getFormationsFutures($this->id);
 	}
 
-	// //modifie les formations d'un utilisateur
-	// //renvoi vrai ou faux selon la bonne execution de la requete
-	// function updateFormationUser(){
-	// 	$data = new DB_User();
-
-	// 	return $data->updateFormationUser($this->id);
-	// }
-
 	function getCreditsUser($id){
 		$data = new DB_User();
 
@@ -168,16 +160,28 @@ Class User {
 		return $data->getFormationsAttente();
 	}
 
-	function AddFormation($formationId){
+	function inscription($formationId){
 		$data = new DB_User();
 
-		return $data->AddFormation($this->id,$formationId);
+		return $data->inscription($this->id, $formationId);
 	}
 
-	function upDateFormation($formationId,$statut){
+	function desinscription($formationId){
 		$data = new DB_User();
 
-		return $data->updateFormation($this->id,$formationId,$statut);
+		return $data->desinscription($this->id, $formationId);
+	}
+
+	function accepteFormation($formationId) {
+		$data = new DB_User();
+
+		return $data->changeFormation($this->id, $formationId, "acceptee");
+	}
+
+	function refuseFormation($formationId) {
+		$data = new DB_User();
+
+		return $data->changeFormation($this->id, $formationId, "refusee");
 	}
 
 }

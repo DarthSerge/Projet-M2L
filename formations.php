@@ -30,8 +30,6 @@ if (isset($_GET["action"]) && isset($_GET["formation"]) && $_GET["formation"] !=
 
 tabFormations("Liste des formations à venir", $user->getFormationsFutures());
 
-tabFormations("Liste des formations en attentes", $user->getFormationsAttente());
-
 finPage();
 
 ?>

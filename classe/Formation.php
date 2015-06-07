@@ -64,6 +64,12 @@ Class Formation{
 	function getCredits() {
 		return $this->credits;
 	}
+
+	function getNbJours() {
+		$data = new DB_Formation();
+
+		return $data->getNbJours($this->id);
+	}
 }
 
 ?>

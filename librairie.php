@@ -155,7 +155,8 @@ function listeTableauFormations($tableau) {
 			$categorie = verifIdFormation($id);
 
 			if ($categorie == "basique")
-				$kiwi = 21;
+				if ($_SESSION["credits"] < $formation->getCredits() || $_SESSION["jours"] < $formation->getNbJours())
+					$categorie = "insuffisant";
 
 			echo "<tr id=\"".$id."\" title=\"".$formation->getLibelle()."\"";
 
