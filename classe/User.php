@@ -142,13 +142,13 @@ Class User {
 		return $data->getFormationsFutures($this->id);
 	}
 
-	//modifie les formations d'un utilisateur
-	//renvoi vrai ou faux selon la bonne execution de la requete
-	function updateFormationUser(){
-		$data = new DB_User();
+	// //modifie les formations d'un utilisateur
+	// //renvoi vrai ou faux selon la bonne execution de la requete
+	// function updateFormationUser(){
+	// 	$data = new DB_User();
 
-		return $data->updateFormationUser($this->id);
-	}
+	// 	return $data->updateFormationUser($this->id);
+	// }
 
 	function getCreditsUser($id){
 		$data = new DB_User();

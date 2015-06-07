@@ -163,8 +163,6 @@ Class DB_User extends DB {
 		} else
 			$listeFormations = false;
 
-			$_SESSION["kiwi"] = $listeFormations;
-
 		/* Calcul du nombre de jours de ces formations combinées */
 
 		$dbh3 = $this->connect();
