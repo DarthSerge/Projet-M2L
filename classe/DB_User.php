@@ -114,7 +114,7 @@ Class DB_User extends DB {
 	}
 
 	function getCreditsUser($id){
-	//connexion 
+		//connexion 
 		$dbh = $this->connect();
 		$sql = "CALL getCredits(:id);";
 
