@@ -132,55 +132,26 @@ Class DB_User extends DB {
 			return false;
 	}
 
-	function getJoursUser($id) {
-		$nbJours = 0;
-		$listeFormations = array();
+	function getJoursUser($id){
+		//connexion 
+		$dbh = $this->connect();
+		$sql = "CALL getJours(:id);";
 
-		$dbh1 = $this->connect();
-
-		/* Récupération du nombre de jours initial */
-
-		$dbh1 = $this->connect();
-		$sql = "SELECT param_valeur FROM parametres WHERE param_libelle = 'jours'";
-		$stmt1 = $dbh1->prepare($sql);
+		//on envoie la requête et on bind les arguments
+		$stmt = $dbh->prepare($sql);
+		$stmt->BindValue(':id',$id);
 		
-		if ($stmt1->execute()) {
-			while ($data1 = $stmt1->fetch(PDO::FETCH_ASSOC))
-				$nbTotal = $data1["param_valeur"];
+		//renvoi 
+		if ($stmt->execute()){
+
+			$res = $stmt->fetch(PDO::FETCH_ASSOC);
+
+			if (is_null($res["jours"]))
+				$res["jours"] = 15;
+
+			return $res["jours"];
 		} else
-			$nbTotal = 0;
-
-		/* Récupération des formations de l'utilisateurs (sauf celles qui ont été annulés) */
-
-		$dbh2 = $this->connect();
-		$sql = "SELECT form_id FROM participe WHERE user_id = :id AND part_statut <> 'annulee';";
-		$stmt2 = $dbh2->prepare($sql);
-		$stmt2->BindValue(':id', $id);
-		
-		if ($stmt2->execute()) {
-			while ($data2 = $stmt2->fetch(PDO::FETCH_ASSOC))
-				$listeFormations[] = $data2["form_id"];
-		} else
-			$listeFormations = false;
-
-		/* Calcul du nombre de jours de ces formations combinées */
-
-		$dbh3 = $this->connect();
-		$sql = "CALL calculJours(:idFormation);";
-		$stmt3 = $dbh3->prepare($sql);
-
-		if ($listeFormations != false) {
-			foreach ($listeFormations as $formation) {
-				$stmt3->BindValue(':idFormation', $formation);
-
-				if ($stmt3->execute()){
-					$res = $stmt3->fetch(PDO::FETCH_ASSOC);
-					$nbJours += $res["jours"];
-				}
-			}
-		}
-
-		return $nbTotal - $nbJours;
+			return false;
 	}
 
 	function inscription($userId, $formationId) {
@@ -191,7 +162,7 @@ Class DB_User extends DB {
 		// else
 		// 	$statut = "demandee";
 
-		$sql = "INSERT INTO participe VALUES(:userId, :formationId, '".$statut."');"
+		$sql = "INSERT INTO participe VALUES(:userId, :formationId, '".$statut."');";
 
 		$stmt = $dbh->prepare($sql);
 		$stmt->BindValue(':userId',$userId);
@@ -203,7 +174,7 @@ Class DB_User extends DB {
 	function desinscription($userId, $formationId) {
 		$dbh = $this->connect();
 		
-		$sql = "DELETE FROM participe WHERE user_id = :userId AND form_id = :formationId;"
+		$sql = "DELETE FROM participe WHERE user_id = :userId AND form_id = :formationId;";
 
 		$stmt = $dbh->prepare($sql);
 		$stmt->BindValue(':userId',$userId);
@@ -214,7 +185,7 @@ Class DB_User extends DB {
 
 	function changeFormation($userId, $formationId, $statut) {
 		$dbh = $this->connect();
-		$sql = "UPDATE participe SET part_statut = :statut WHERE form_id = :formationId AND user_id = :userId;"
+		$sql = "UPDATE participe SET part_statut = :statut WHERE form_id = :formationId AND user_id = :userId;";
 
 		$stmt = $dbh->prepare($sql);
 		$stmt->BindValue(':userId',$userId);
