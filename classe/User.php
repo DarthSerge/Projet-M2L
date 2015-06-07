@@ -43,7 +43,7 @@ Class User {
 				"mail" => $retour["user_mail"],
 				"credits" => $retour["credits"],
 				"jours" => $retour["jours"],
-				"jours" => $retour["user_admin"],
+				"admin" => $retour["user_admin"],
 
 				);
 
