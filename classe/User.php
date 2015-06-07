@@ -180,17 +180,6 @@ Class User {
 		return $data->updateFormation($this->id,$formationId,$statut);
 	}
 
-	function AddFormation($formationId){
-		$data = new DB_User();
-
-		return $data->AddFormation($this->id,$formationId);
-	}
-
-	function upDateFormation($formationId,$statut){
-		$data = new DB_User();
-
-		return $data->updateFormation($this->id,$formationId,$statut);
-	}
 }
 
 ?>
