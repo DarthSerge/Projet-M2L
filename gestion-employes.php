@@ -5,9 +5,11 @@ include_once "./librairie.php";
 debutPage("Gestion des employés");
 aside($_SESSION["id"]);
 
-/* Liste des formations en attentes */
+$user = new User($_SESSION["id"], $_SESSION["login"], $_SESSION["mail"],$_SESSION["credits"],$_SESSION["jours"],$_SESSION["admin"]);
 
-tabFormations("Liste des formations en attentes", $user->getFormationsAttente());
+/* Liste des demandes en attentes */
+
+tabDemandes($user->getDemandes());
 
 finPage();
 

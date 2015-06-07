@@ -159,10 +159,10 @@ Class DB_User extends DB {
 	function inscription($formationId, $userId) {
 		$dbh = $this->connect();
 
-		// if (ADMIN)
-		// 	$statut = "acceptee";
-		// else
-		$statut = "demandee";
+		if ($_SESSION["admin"])
+			$statut = "acceptee";
+		else
+			$statut = "demandee";
 
 		$sql = "INSERT INTO participe VALUES(:formationId, :userId, '".$statut."');";
 

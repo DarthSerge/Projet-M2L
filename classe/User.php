@@ -157,10 +157,10 @@ Class User {
 		return $data->getJoursUser($this->id);
 	}
 
-	function getFormationsAttente(){
+	function getDemandes(){
 		$data = new DB_Formation();
 
-		return $data->getFormationsAttente();
+		return $data->getDemandes();
 	}
 
 	function inscription($formationId){

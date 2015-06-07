@@ -171,7 +171,7 @@ aside div span {
 
 /* Tableau de formations */
 
-.tableauFormations {
+table {
 	margin: auto;
 	margin-top: 30px;
 	width: 90%;
@@ -184,7 +184,7 @@ table th, table td {
 	border: 1px solid #aacfe4;
 }
 
-table .typeFormations {
+table .typeFormations, table .typeDemandes {
 	font-size: 1.2em;
 	margin-bottom: 50px;
 }
@@ -221,10 +221,6 @@ table tr.insuffisant th, table tr.insuffisant td {
 	border: 1px solid #dc954e;
 }
 
-table .id {
-	display: none;
-}
-
 table .libelle {
 	width: 15%;
 }
@@ -251,4 +247,20 @@ table .prestataire {
 
 table .credits {
 	width: 7%;
+}
+
+table .employe {
+	width: 23%;
+}
+
+table .formation {
+	width: 20%;
+}
+
+table .accepter {
+	width: 10%;
+}
+
+table .refuser {
+	width: 10%;
 }

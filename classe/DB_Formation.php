@@ -144,7 +144,7 @@ Class DB_Formation extends DB {
 	}
 
 	
-	function getFormationsAttente(){
+	function getDemandes(){
 
 		$listeFormationsAttente = array();
 

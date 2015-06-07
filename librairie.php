@@ -47,6 +47,10 @@ function debutPage($titre) {
 				echo "<li class=\"nav\"><a href=\"compte.php\">Mon compte</a></li>\n";
 				echo "<li class=\"nav\"><a href=\"mailto:jeanfrancois.poivey@free.fr\">Contactez-nous</a></li>\n";
 				echo "<li class=\"nav\"><a href=\"formations.php\">Les formations</a></li>\n";
+
+				if ($_SESSION["admin"])
+					echo "<li class=\"nav\"><a href=\"gestion-employes.php\">Gestion</a></li>\n";
+
 				echo "<li class=\"nav\"><a href=\"?deconnexion\" id=\"deconnexion\">Se déconnecter</a></li>\n";
 			echo "</ul>\n";
 		echo "</header>\n";
@@ -78,13 +82,13 @@ function finPage() {
 
 function ligneLabelFormations($label) {
 	echo "<tr>\n";
-		echo "<th colspan=\"9\" class=\"typeFormations\">".$label."</th>\n";
+		echo "<th colspan=\"8\" class=\"typeFormations\">".$label."</th>\n";
 	echo "</tr>\n";
 }
 
 function ligueAucuneFormation() {
 	echo "<tr>\n";
-		echo "<td colspan=\"9\">Aucune formation</td>\n";
+		echo "<td colspan=\"8\">Aucune formation</td>\n";
 	echo "</tr>\n";
 }
 
@@ -193,7 +197,7 @@ function listeTableauFormations($tableau) {
 }
 
 function tabFormations($label, $tableau) {
-	echo "<table class=\"tableauFormations\">\n";
+	echo "<table>\n";
 
 	ligneLabelFormations($label);
 
@@ -202,12 +206,71 @@ function tabFormations($label, $tableau) {
 	echo "</table>\n";
 }
 
-function tabFormationsAttente($label, $tableau) {
-	echo "<table class=\"tableauFormations\">\n";
+function tabDemandes($tableau) {
+	echo "<table>\n";
 
-	ligneLabelFormations($label);
+	echo "<tr>\n";
+		echo "<th colspan=\"8\" class=\"typeDemandes\">Liste des demandes en attentes</th>\n";
+	echo "</tr>\n";
 
-	listeTableauFormations($tableau);
+	echo "<tr>\n";
+		echo "<th class=\"employe\">Employé(e)</th>\n";
+		echo "<th class=\"formation\">Formation</th>\n";
+		echo "<th class=\"date\">Date de début</th>\n";
+		echo "<th class=\"date\">Date de fin</th>\n";
+		echo "<th class=\"prestataire\">Prestataire</th>\n";
+		echo "<th class=\"credits\">Crédits</th>\n";
+		echo "<th class=\"accepter\">Accepter</th>\n";
+		echo "<th class=\"refuser\">Refuser</th>\n";
+	echo "</tr>\n";
+
+	if (count($tableau) == 0)
+		ligueAucuneFormation("Aucune formation");
+
+	else {
+		ligneChamps();
+
+		foreach ($tableau as $formation) {
+			$prestataire = $formation->getPrestataire();
+			$id = $formation->getId();
+			$categorie = verifIdFormation($id);
+
+			if ($categorie == "basique")
+				if ($_SESSION["credits"] < $formation->getCredits() || $_SESSION["jours"] < $formation->getNbJours())
+					$categorie = "insuffisant";
+
+			if (getFichier() != "formations.php")
+				echo "<tr>\n";
+			
+			else {
+				echo "<tr id=\"".$id."\" title=\"".$formation->getLibelle()."\" class=\"".$categorie."\">\n";
+
+				if ($categorie == "basique" || $categorie == "demandee" || $categorie == "acceptee") {
+					if ($categorie == "basique")
+						$action = "inscription";
+					else
+						$action = "desinscription";
+
+					echo "<form id=\"formation".$id."\" action=\"formations.php\" method=\"post\">\n";
+						echo "<input type=\"hidden\" name=\"action\" value=\"".$action."\" />\n";
+						echo "<input type=\"hidden\" name=\"formation\" value=\"".$id."\" />\n";
+						echo "<input type=\"hidden\" name=\"credits\" value=\"".$formation->getCredits()."\" />\n";
+						echo "<input type=\"hidden\" name=\"jours\" value=\"".$formation->getNbJours()."\" />\n";
+					echo "</form>\n";
+				}
+			}
+
+				echo "<td class=\"libelle\">".$formation->getLibelle()."</td>\n";
+				echo "<td class=\"contenu\">".$formation->getContenu()."</td>\n";
+				echo "<td class=\"date\">".$formation->getDateDebut()."</td>\n";
+				echo "<td class=\"date\">".$formation->getDateFin()."</td>\n";
+				echo "<td class=\"lieu\">".$formation->getLieu()."</td>\n";
+				echo "<td class=\"prerequis\">".$formation->getRequis()."</td>\n";
+				echo "<td class=\"prestataire\">".$prestataire->getRaisonSociale()."</td>\n";
+				echo "<td class=\"credits\">".$formation->getCredits()."</td>\n";
+			echo "</tr>\n";
+		}
+	}
 
 	echo "</table>\n";
 }
