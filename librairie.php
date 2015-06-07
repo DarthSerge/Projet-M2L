@@ -86,7 +86,7 @@ function ligneLabelFormations($label) {
 	echo "</tr>\n";
 }
 
-function ligueAucuneFormation() {
+function ligneAucuneFormation() {
 	echo "<tr>\n";
 		echo "<td colspan=\"8\">Aucune formation</td>\n";
 	echo "</tr>\n";
@@ -148,7 +148,7 @@ function verifIdFormation($idFormation) {
 
 function listeTableauFormations($tableau) {
 	if (count($tableau) == 0)
-		ligueAucuneFormation("Aucune formation");
+		ligneAucuneFormation();
 
 	else {
 		ligneChamps();
@@ -225,7 +225,7 @@ function tabDemandes($tableau) {
 	echo "</tr>\n";
 
 	if (count($tableau) == 0)
-		ligueAucuneFormation("Aucune formation");
+		ligneAucuneFormation();
 
 	else {
 		ligneChamps();
