@@ -158,13 +158,26 @@ function listeTableauFormations($tableau) {
 				if ($_SESSION["credits"] < $formation->getCredits() || $_SESSION["jours"] < $formation->getNbJours())
 					$categorie = "insuffisant";
 
-			echo "<tr id=\"".$id."\" title=\"".$formation->getLibelle()."\"";
-
-			if (getFichier() == "formations.php")
-				echo " class=\"".$categorie."\">\n";
+			if (getFichier() != "formations.php")
+				echo "<tr>\n";
 			
-			else
-				echo ">\n";
+			else {
+				echo "<tr id=\"".$id."\" title=\"".$formation->getLibelle()."\" class=\"".$categorie."\">\n";
+
+				if ($categorie == "basique" || $categorie == "demandee" || $categorie == "acceptee") {
+					if ($categorie == "basique")
+						$action = "inscription";
+					else
+						$action = "desinscription";
+
+					echo "<form id=\"formation".$id."\" action=\"formations.php\" method=\"post\">\n";
+						echo "<input type=\"hidden\" name=\"action\" value=\"".$action."\" />\n";
+						echo "<input type=\"hidden\" name=\"formation\" value=\"".$id."\" />\n";
+						echo "<input type=\"hidden\" name=\"credits\" value=\"".$formation->getCredits()."\" />\n";
+						echo "<input type=\"hidden\" name=\"jours\" value=\"".$formation->getNbJours()."\" />\n";
+					echo "</form>\n";
+				}
+			}
 
 				echo "<td class=\"libelle\">".$formation->getLibelle()."</td>\n";
 				echo "<td class=\"contenu\">".$formation->getContenu()."</td>\n";

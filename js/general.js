@@ -16,12 +16,12 @@ $(document).ready(function() {
 
 	$("table tr.basique").click(function() {
 		if (confirm("Voulez-vous vraiment vous inscrire à la formation : " + $(this).attr("title") + " ?"))
-			window.location.href = "?action=inscription&formation=" + $(this).attr("id");
+			document.forms["formation" + $(this).attr("id")].submit();
 	});
 
 	$("table tr.demandee, table tr.acceptee").click(function() {
 		if (confirm("Voulez-vous vraiment vous désinscrire de la formation : " + $(this).attr("title") + " ?"))
-			window.location.href = "?action=desinscription&formation=" + $(this).attr("id");
+			document.forms["formation" + $(this).attr("id")].submit();
 	});
 
 });

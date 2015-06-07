@@ -154,36 +154,36 @@ Class DB_User extends DB {
 			return false;
 	}
 
-	function inscription($userId, $formationId) {
+	function inscription($formationId, $userId) {
 		$dbh = $this->connect();
 
 		// if (ADMIN)
 		// 	$statut = "acceptee";
 		// else
-		// 	$statut = "demandee";
+		$statut = "demandee";
 
-		$sql = "INSERT INTO participe VALUES(:userId, :formationId, '".$statut."');";
+		$sql = "INSERT INTO participe VALUES(:formationId, :userId, '".$statut."');";
 
 		$stmt = $dbh->prepare($sql);
-		$stmt->BindValue(':userId',$userId);
 		$stmt->BindValue(':formationId',$formationId);
+		$stmt->BindValue(':userId',$userId);
 
 		return $stmt->execute();
 	}
 
-	function desinscription($userId, $formationId) {
+	function desinscription($formationId, $userId) {
 		$dbh = $this->connect();
 		
-		$sql = "DELETE FROM participe WHERE user_id = :userId AND form_id = :formationId;";
+		$sql = "DELETE FROM participe WHERE form_id = :formationId AND user_id = :userId;";
 
 		$stmt = $dbh->prepare($sql);
-		$stmt->BindValue(':userId',$userId);
 		$stmt->BindValue(':formationId',$formationId);
+		$stmt->BindValue(':userId',$userId);
 
 		return $stmt->execute();
 	}
 
-	function changeFormation($userId, $formationId, $statut) {
+	function changeFormation($formationId, $userId, $statut) {
 		$dbh = $this->connect();
 		$sql = "UPDATE participe SET part_statut = :statut WHERE form_id = :formationId AND user_id = :userId;";
 

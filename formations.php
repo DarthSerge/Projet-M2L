@@ -3,28 +3,31 @@
 include_once "./librairie.php";
 
 debutPage("Liste des formations");
-aside($_SESSION["id"]);
 
-$user = new User($_SESSION["id"], $_SESSION["login"], $_SESSION["mail"],$_SESSION["credits"],$_SESSION["jours"]);
+$user = new User($_SESSION["id"], $_SESSION["login"], $_SESSION["mail"], $_SESSION["credits"],$_SESSION["jours"]);
 
 /* Action sur les formations */
 
-if (isset($_GET["action"]) && isset($_GET["formation"]) && $_GET["formation"] != "") {
+if (isset($_POST["action"]) && isset($_POST["formation"]) && $_POST["formation"] != "") {
 
 	/* Inscription */
 
-	if ($_GET["action"] == "inscription") {
-		$formation = $_GET["formation"];
-
+	if ($_POST["action"] == "inscription") {
+		$user->inscription($_POST["formation"]);
+		$_SESSION["credits"] -= $_POST["credits"];
+		$_SESSION["jours"] -= $_POST["jours"];
 	}
 
 	/* Désinscription */
 
-	if ($_GET["action"] == "desinscription") {
-		$formation = $_GET["formation"];
-
+	if ($_POST["action"] == "desinscription") {
+		$user->desinscription($_POST["formation"]);
+		$_SESSION["credits"] += $_POST["credits"];
+		$_SESSION["jours"] += $_POST["jours"];
 	}
 }
+
+aside($_SESSION["id"]);
 
 /* Liste des formations à venir */
 

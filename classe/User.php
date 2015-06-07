@@ -163,25 +163,25 @@ Class User {
 	function inscription($formationId){
 		$data = new DB_User();
 
-		return $data->inscription($this->id, $formationId);
+		return $data->inscription($formationId, $this->id);
 	}
 
 	function desinscription($formationId){
 		$data = new DB_User();
 
-		return $data->desinscription($this->id, $formationId);
+		return $data->desinscription($formationId, $this->id);
 	}
 
 	function accepteFormation($formationId) {
 		$data = new DB_User();
 
-		return $data->changeFormation($this->id, $formationId, "acceptee");
+		return $data->changeFormation($formationId, $this->id, "acceptee");
 	}
 
 	function refuseFormation($formationId) {
 		$data = new DB_User();
 
-		return $data->changeFormation($this->id, $formationId, "refusee");
+		return $data->changeFormation($formationId, $this->id, "refusee");
 	}
 
 }
