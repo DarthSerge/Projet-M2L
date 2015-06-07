@@ -20,8 +20,10 @@ Class DB_User extends DB {
 		if ($stmt->execute()) {
 			$retour = $stmt->fetch(PDO::FETCH_ASSOC);
 
-			$retour["credits"] 	= $this->getCreditsUser($retour["id"]);
-			$retour["jours"] 	= $this->getJoursUser($retour["id"]);
+			if (!is_null($retour["user_id"])){
+				$retour["credits"] 	= $this->getCreditsUser($retour["user_id"]);
+				$retour["jours"] 	= $this->getJoursUser($retour["user_id"]);
+			}
 
 			if (count($retour) != 1) {
 				return $retour;
@@ -116,11 +118,11 @@ Class DB_User extends DB {
 	function getCreditsUser($id){
 		//connexion 
 		$dbh = $this->connect();
-		$sql = "CALL getCredits(:id);";
+		$sql = "CALL getCredits(:id)";
 
 		//on envoie la requête et on bind les arguments
 		$stmt = $dbh->prepare($sql);
-		$stmt->BindValue(':id',$id);
+		$stmt->BindValue(":id",$id);
 		
 		//renvoi 
 		if ($stmt->execute()){
@@ -139,7 +141,7 @@ Class DB_User extends DB {
 
 		//on envoie la requête et on bind les arguments
 		$stmt = $dbh->prepare($sql);
-		$stmt->BindValue(':id',$id);
+		$stmt->BindValue(":id",$id);
 		
 		//renvoi 
 		if ($stmt->execute()){
@@ -149,7 +151,7 @@ Class DB_User extends DB {
 			if (is_null($res["jours"]))
 				$res["jours"] = 15;
 
-			return $res["jours"];
+			return $res['jours'];
 		} else
 			return false;
 	}

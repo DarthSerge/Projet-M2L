@@ -142,7 +142,7 @@ Class User {
 		return $data->getFormationsFutures($this->id);
 	}
 
-	function getCreditsUser($id){
+	function getCreditsUser(){
 		$data = new DB_User();
 
 		return $data->getCreditsUser($this->id);
