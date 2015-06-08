@@ -151,25 +151,22 @@ Class DB_Formation extends DB {
 		//connection a la base
 		$dbh = $this->connect();
 
-		$sql = "SELECT form_id, form_libelle,form_contenu,form_date_debut,form_date_fin,form_lieu,form_prerequis,prest_id,form_cout_credit FROM formation WHERE form_id IN (SELECT form_id FROM participe WHERE part_statut = 'demandee')";
+		$sql = "SELECT p.user_id, p.form_id, u.user_login, f.form_libelle, f.form_date_debut, f.form_date_fin, (SELECT prest_raison_sociale FROM prestataire WHERE prest_id=f.prest_id) as prestataire, f.form_cout_credit FROM participe p INNER JOIN user u ON p.user_id=u.user_id INNER JOIN formation f ON p.form_id=f.form_id WHERE p.part_statut = 'demandee'";
 
 		//on envoie la requête et on bind les arguments
 		$stmt = $dbh->prepare($sql);
 
 		if ($stmt->execute())
-			while($data = $stmt->fetch(PDO::FETCH_ASSOC)){
-				$formation = new Formation($data["form_id"],
-					  					   $data["form_libelle"],
-										   $data["form_contenu"],
-										   $data["form_date_debut"],
-										   $data["form_date_fin"],
-										   $data["form_lieu"],
-										   $data["form_prerequis"],
-										   $data["form_cout_credit"],
-										   $data["prest_id"]);
-				$listeDemande[] = $formation;
-			}
-
+			while($data = $stmt->fetch(PDO::FETCH_ASSOC))
+				$listeDemande[] = array("userId" => $data["user_id"],
+										"formId" => $data["form_id"],
+										"employe" => $data["user_login"],
+										"formation" => $data["form_libelle"],
+										"debut" => $data["form_date_debut"],
+										"fin" => $data["form_date_fin"],
+										"prestataire" => $data["prestataire"],
+										"credits" => $data["form_cout_credit"]);
+			
 		 else {
 			echo("Erreur lors de la lecture des données");
 			return false;

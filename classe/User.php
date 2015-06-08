@@ -17,7 +17,7 @@ Class User {
 	private $jours;
 
 	/* Constructeur */
-	function __construct($id, $login, $mail,$credits,$jours,$admin) {
+	function __construct($id, $login, $mail, $credits, $jours, $admin) {
 		$this->id = $id;
 		$this->login = $login;
 		$this->mail = $mail;
@@ -175,16 +175,16 @@ Class User {
 		return $data->desinscription($formationId, $this->id);
 	}
 
-	function accepteFormation($formationId) {
+	function accepteFormation($formationId, $userId) {
 		$data = new DB_User();
 
-		return $data->changeFormation($formationId, $this->id, "acceptee");
+		return $data->changeFormation($formationId, $userId, "acceptee");
 	}
 
-	function refuseFormation($formationId) {
+	function refuseFormation($formationId, $userId) {
 		$data = new DB_User();
 
-		return $data->changeFormation($formationId, $this->id, "refusee");
+		return $data->changeFormation($formationId, $userId, "refusee");
 	}
 
 }

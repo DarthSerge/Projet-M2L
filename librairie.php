@@ -213,61 +213,46 @@ function tabDemandes($tableau) {
 		echo "<th colspan=\"8\" class=\"typeDemandes\">Liste des demandes en attentes</th>\n";
 	echo "</tr>\n";
 
-	echo "<tr>\n";
-		echo "<th class=\"employe\">Employé(e)</th>\n";
-		echo "<th class=\"formation\">Formation</th>\n";
-		echo "<th class=\"date\">Date de début</th>\n";
-		echo "<th class=\"date\">Date de fin</th>\n";
-		echo "<th class=\"prestataire\">Prestataire</th>\n";
-		echo "<th class=\"credits\">Crédits</th>\n";
-		echo "<th class=\"accepter\">Accepter</th>\n";
-		echo "<th class=\"refuser\">Refuser</th>\n";
-	echo "</tr>\n";
+	if (count($tableau) == 0) {
+		echo "<tr>\n";
+			echo "<td colspan=\"8\">Aucune demande</td>\n";
+		echo "</tr>\n";
+	} else {
+		echo "<tr>\n";
+			echo "<th class=\"employe\">Employé(e)</th>\n";
+			echo "<th class=\"formation\">Formation</th>\n";
+			echo "<th class=\"date\">Date de début</th>\n";
+			echo "<th class=\"date\">Date de fin</th>\n";
+			echo "<th class=\"prestataire\">Prestataire</th>\n";
+			echo "<th class=\"credits\">Crédits</th>\n";
+			echo "<th class=\"accepter\">Accepter</th>\n";
+			echo "<th class=\"refuser\">Refuser</th>\n";
+		echo "</tr>\n";
 
-	if (count($tableau) == 0)
-		ligneAucuneFormation();
+		foreach ($tableau as $ligne) {
+			echo "<tr>\n";
+				echo "<td class=\"employe\">".$ligne["employe"]."</td>\n";
+				echo "<td class=\"formation\">".$ligne["formation"]."</td>\n";
+				echo "<td class=\"date\">".$ligne["debut"]."</td>\n";
+				echo "<td class=\"date\">".$ligne["fin"]."</td>\n";
+				echo "<td class=\"prestataire\">".$ligne["prestataire"]."</td>\n";
+				echo "<td class=\"credits\">".$ligne["credits"]."</td>\n";
 
-	else {
-		ligneChamps();
-
-		foreach ($tableau as $formation) {
-			$prestataire = $formation->getPrestataire();
-			$id = $formation->getId();
-			$categorie = verifIdFormation($id);
-
-			if ($categorie == "basique")
-				if ($_SESSION["credits"] < $formation->getCredits() || $_SESSION["jours"] < $formation->getNbJours())
-					$categorie = "insuffisant";
-
-			if (getFichier() != "formations.php")
-				echo "<tr>\n";
-			
-			else {
-				echo "<tr id=\"".$id."\" title=\"".$formation->getLibelle()."\" class=\"".$categorie."\">\n";
-
-				if ($categorie == "basique" || $categorie == "demandee" || $categorie == "acceptee") {
-					if ($categorie == "basique")
-						$action = "inscription";
-					else
-						$action = "desinscription";
-
-					echo "<form id=\"formation".$id."\" action=\"formations.php\" method=\"post\">\n";
-						echo "<input type=\"hidden\" name=\"action\" value=\"".$action."\" />\n";
-						echo "<input type=\"hidden\" name=\"formation\" value=\"".$id."\" />\n";
-						echo "<input type=\"hidden\" name=\"credits\" value=\"".$formation->getCredits()."\" />\n";
-						echo "<input type=\"hidden\" name=\"jours\" value=\"".$formation->getNbJours()."\" />\n";
+				echo "<td login=\"".$ligne["employe"]."\" formation=\"".$ligne["formation"]."\" userId=\"".$ligne["userId"]."\" formId=\"".$ligne["formId"]."\" class=\"accepter\">";
+					echo "<form id=\"accepter_".$ligne["userId"]."_".$ligne["formId"]."\" action=\"gestion-employes.php\" method=\"post\">\n";
+						echo "<input type=\"hidden\" name=\"action\" value=\"accepter\" />\n";
+						echo "<input type=\"hidden\" name=\"employe\" value=\"".$ligne["userId"]."\" />\n";
+						echo "<input type=\"hidden\" name=\"formation\" value=\"".$ligne["formId"]."\" />\n";
 					echo "</form>\n";
-				}
-			}
+				echo "<img src=\"images/accepter.png\" title=\"accepter\" alt=\"Accepter la demande\" \></td>\n";
 
-				echo "<td class=\"libelle\">".$formation->getLibelle()."</td>\n";
-				echo "<td class=\"contenu\">".$formation->getContenu()."</td>\n";
-				echo "<td class=\"date\">".$formation->getDateDebut()."</td>\n";
-				echo "<td class=\"date\">".$formation->getDateFin()."</td>\n";
-				echo "<td class=\"lieu\">".$formation->getLieu()."</td>\n";
-				echo "<td class=\"prerequis\">".$formation->getRequis()."</td>\n";
-				echo "<td class=\"prestataire\">".$prestataire->getRaisonSociale()."</td>\n";
-				echo "<td class=\"credits\">".$formation->getCredits()."</td>\n";
+				echo "<td login=\"".$ligne["employe"]."\" formation=\"".$ligne["formation"]."\" userId=\"".$ligne["userId"]."\" formId=\"".$ligne["formId"]."\" class=\"refuser\">";
+					echo "<form id=\"refuser_".$ligne["userId"]."_".$ligne["formId"]."\" action=\"gestion-employes.php\" method=\"post\">\n";
+						echo "<input type=\"hidden\" name=\"action\" value=\"refuser\" />\n";
+						echo "<input type=\"hidden\" name=\"employe\" value=\"".$ligne["userId"]."\" />\n";
+						echo "<input type=\"hidden\" name=\"formation\" value=\"".$ligne["formId"]."\" />\n";
+					echo "</form>\n";
+				echo "<img src=\"images/refuser.png\" title=\"refuser\" alt=\"Refuser la demande\" \></td>\n";
 			echo "</tr>\n";
 		}
 	}

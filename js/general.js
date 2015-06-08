@@ -24,4 +24,14 @@ $(document).ready(function() {
 			document.forms["formation" + $(this).attr("id")].submit();
 	});
 
+	$("table td.accepter").click(function() {
+		if (confirm("Voulez-vous vraiment accepter " + $(this).attr("login") + " à la formation : " + $(this).attr("formation") + " ?"))
+			document.forms["accepter_" + $(this).attr("userId") + "_" + $(this).attr("formId")].submit();
+	});
+
+	$("table td.refuser").click(function() {
+		if (confirm("Voulez-vous vraiment refuser " + $(this).attr("login") + " à la formation : " + $(this).attr("formation") + " ?"))
+			document.forms["refuser_" + $(this).attr("userId") + "_" + $(this).attr("formId")].submit();
+	});
+
 });
