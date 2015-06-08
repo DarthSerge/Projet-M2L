@@ -28,7 +28,7 @@ elseif (isset($_POST["login"]) && isset($_POST["mdp"])) {
 	}
 
 	if (!$error) {
-		$utilisateur = new User(0, "", "",0,0);
+		$utilisateur = new User(0, "", "",0,0,0);
 
 		$test = $utilisateur->CheckConnexion($login, $_POST["mdp"]);
 
